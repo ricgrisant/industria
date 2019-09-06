@@ -105,9 +105,34 @@ DROP TABLE IF EXISTS `planpublicitario`;
 CREATE TABLE IF NOT EXISTS `planpublicitario` (
   `idPlan` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `descripcion` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `precio` decimal(10,0) NOT NULL,
   `duracionDias` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `tarifa`
+--
+DROP TABLE IF EXISTS `tarifa`;
+CREATE TABLE IF NOT EXISTS `tarifa` (
+  `idTarifa` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `precio` decimal(10,0) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `tarifaPorPlan`
+--
+DROP TABLE IF EXISTS `tarifaPorPlan`;
+CREATE TABLE IF NOT EXISTS `tarifaPorPlan` (
+  `idTarifa` int(11) NOT NULL,
+  `idPlan` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE tarifaPorPlan
+  ADD CONSTRAINT `fk_idtarifa_tpp`
+  FOREIGN KEY (idTarifa)
+  REFERENCES tarifa(`idTarifa`);
+  ALTER TABLE tarifaPorPlan
+    ADD CONSTRAINT `fk_idplan_tpp`
+    FOREIGN KEY (idPlan)
+    REFERENCES planpublicitario(`idPlan`);
 
 -- --------------------------------------------------------
 --
