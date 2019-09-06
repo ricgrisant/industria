@@ -22,6 +22,21 @@ SET time_zone = "+00:00";
 -- Base de datos: `turisteando`
 --
 -- --------------------------------------------------------
+-- Estructura de tabla para la tabla `usuario`
+--
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `idUsuario` int(50) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `apellido` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `telefono` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `correo` varchar(50 ) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `imagenPerfil` varchar(250) COLLATE utf8_unicode_ci
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE usuario ADD CONSTRAINT uq_correo UNIQUE(correo);
+ALTER TABLE usuario ADD CONSTRAINT uq_telefono UNIQUE(telefono);
+-- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `empresatransporte`
@@ -30,8 +45,14 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `empresatransporte`;
 CREATE TABLE IF NOT EXISTS `empresatransporte` (
   `idEmpresaTransporte` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+  `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `idRepresentante` int(11) NOT NULL,
+  `imagenPerfil` varchar(250) COLLATE utf8_unicode_ci
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE empresatransporte
+  ADD CONSTRAINT `fk_idRepresentante`
+  FOREIGN KEY (idRepresentante)
+  REFERENCES usuario(idUsuario);
 -- --------------------------------------------------------
 --
 -- Estructura de tabla para la tabla `sucursalempresatransporte`
@@ -44,7 +65,8 @@ CREATE TABLE IF NOT EXISTS `sucursalempresatransporte` (
   `horaApertura` time NOT NULL,
   `horaCierre` time NOT NULL,
   `idEmpresaTransporte` int(11) NOT NULL,
-  `calificacion` decimal(1,0) NOT NULL
+  `calificacion` decimal(1,0) NOT NULL,
+  `imagenPerfil` varchar(250) COLLATE utf8_unicode_ci
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ALTER TABLE sucursalempresatransporte
   ADD CONSTRAINT `fk_idEmpresaTransporte_Sucursal`
@@ -107,7 +129,8 @@ DROP TABLE IF EXISTS `pago`;
 CREATE TABLE IF NOT EXISTS `pago` (
   `idPago` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `idTipoPago` int(11) NOT NULL,
-  `idPlan` int(11) NOT NULL
+  `idPlan` int(11) NOT NULL,
+  `idEmpresaTransporte` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ALTER TABLE pago
   ADD CONSTRAINT `fk_idTipoPago_pago`
@@ -117,6 +140,10 @@ ALTER TABLE pago
   ADD CONSTRAINT `fk_idPlan_pago`
   FOREIGN KEY (idPlan)
   REFERENCES planpublicitario(`idPlan`);
+ALTER TABLE pago
+  ADD CONSTRAINT `fk_idEmpresa_Pago`
+  FOREIGN KEY (idEmpresaTransporte)
+  REFERENCES empresaTransporte(`idEmpresaTransporte`);
 
 -- --------------------------------------------------------
 --
@@ -138,54 +165,80 @@ ALTER TABLE publicidad
 
 -- --------------------------------------------------------
 --
--- Estructura de tabla para la tabla `usuario`
---
-
-DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `id` int(50) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `apellido` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `telefono` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `nombreUsuario` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `correo` varchar(50 ) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-ALTER TABLE usuario ADD CONSTRAINT uc_nombre UNIQUE(nombre);
-ALTER TABLE usuario ADD CONSTRAINT uc_correo UNIQUE(correo);
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `administrador`
 --
 
 DROP TABLE IF EXISTS `administrador`;
 CREATE TABLE IF NOT EXISTS `administrador` (
-  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `idAdmin` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `idUsuario` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ALTER TABLE administrador
   ADD CONSTRAINT `fk_idUsuario`
   FOREIGN KEY (idUsuario)
   REFERENCES usuario(`idUsuario`);
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `opinion`
+--
+DROP TABLE IF EXISTS `opinion`;
+CREATE TABLE IF NOT EXISTS `opinion` (
+  `idOpinion` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `opinionComentario` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `idEmpresaTransporte` int(11) NOT NULL,
+  `numeroLikes` int(11) NOT NULL DEFAULT '0',
+  `numeroDislikes` int(11) NOT NULL DEFAULT '0',
+  `fecha` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE opinion
+  ADD CONSTRAINT `fk_idUsuario_opinion`
+  FOREIGN KEY (idUsuario)
+  REFERENCES usuario(`idUsuario`);
+ALTER TABLE opinion
+  ADD CONSTRAINT `fk_idEmpresa_opinion`
+  FOREIGN KEY (idEmpresaTransporte)
+  REFERENCES empresaTransporte(`idEmpresaTransporte`);
 
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `blog`
+--
+DROP TABLE IF EXISTS `blog`;
+CREATE TABLE IF NOT EXISTS `blog` (
+  `idBlog` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `descripcion` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `imagenPerfil` varchar(250) COLLATE utf8_unicode_ci,
+  `fecha` date NOT NULL,
+  `idUsuario` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE blog
+  ADD CONSTRAINT `fk_idUsuario_blog`
+  FOREIGN KEY (idUsuario)
+  REFERENCES usuario(`idUsuario`);
 -- --------------------------------------------------------
 --
 -- Estructura de tabla para la tabla `comentario`
 --
 
-DROP TABLE IF EXISTS `comentario`;
-CREATE TABLE IF NOT EXISTS `comentario` (
-  `idComentario` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `comentario` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+DROP TABLE IF EXISTS `comentarioBlog`;
+CREATE TABLE IF NOT EXISTS `comentarioBlog` (
+  `idComentarioBlog` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `idUsuario` int(11) NOT NULL,
+  `idBlog` int(11) NOT NULL,
+  `comentario` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `numeroLikes` int(11) NOT NULL DEFAULT '0',
-  `numeroDislikes` int(11) NOT NULL DEFAULT '0'
+  `numeroDislikes` int(11) NOT NULL DEFAULT '0',
+  `fecha` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-ALTER TABLE Comentario
-  ADD CONSTRAINT `fk_idUsuario_comentario`
+ALTER TABLE comentarioBlog
+  ADD CONSTRAINT `fk_idUsuario_comentarioBlog`
   FOREIGN KEY (idUsuario)
   REFERENCES usuario(`idUsuario`);
+ALTER TABLE comentarioBlog
+  ADD CONSTRAINT `fk_idBlog_comentarioBlog`
+  FOREIGN KEY (idBlog)
+  REFERENCES blog(`idBlog`);
 
 -- --------------------------------------------------------
 

@@ -1,21 +1,26 @@
-DROP PROCEDURE IF EXISTS Funcion_Login_Cliente;
+DROP PROCEDURE IF EXISTS Funcion_Login;
 DELIMITER $$
-CREATE PROCEDURE Funcion_Login_Cliente(
-		IN pc_usuario 		VARCHAR(45),
+CREATE PROCEDURE Funcion_Login(
+		IN pc_correo 		VARCHAR(45),
 		IN pc_userPassword 	VARCHAR(45),
 		OUT pcMensaje 		VARCHAR(2000),
-		OUT pbOcurreError 	BOOLEAN
+		OUT pbOcurreError 	BOOLEAN,
+		OUT pnIdUsuario	INTEGER,
+		OUT pnIdAdmin		INTEGER
 	)
 
 BEGIN
 	DECLARE temMensaje 			VARCHAR(1000);
 	DECLARE vn_existeUsuario 	INTEGER DEFAULT 0;
 	DECLARE vn_existePassword 	INTEGER DEFAULT 0;
+	DECLARE vn_existeAdmin 	INTEGER DEFAULT 0;
 
 	SET pbOcurreError :=TRUE;
+	SET pnIdUsuario := NULL;
+	SET pnIdAdmin := NULL;
 	SET temMensaje := '';
 	/*Comprobando que el nombreUsuario de usuario no sea null:*/
-	IF pc_usuario = '' OR pc_usuario IS NULL THEN
+	IF pc_correo = '' OR pc_correo IS NULL THEN
 		SET temMensaje := CONCAT(temMensaje,'usuario, ');
 	END IF;
 
@@ -29,15 +34,15 @@ BEGIN
 	END IF;
 
 	SELECT COUNT(*) INTO vn_existeUsuario FROM Usuario
-	WHERE usuario.nombreUsuario = pc_usuario OR usuario.correo = pc_usuario;
+	WHERE usuario.correo = pc_correo;
 
 	IF vn_existeUsuario = 0 THEN
-		SET pcMensaje := CONCAT('No existe el usuario ',pc_usuario);
+		SET pcMensaje := CONCAT('No existe el usuario ',pc_correo);
 	END IF;
 
 	IF vn_existeUsuario = 1 THEN
 		SELECT COUNT(*) INTO vn_existePassword FROM usuario
-		WHERE usuario.nombreUsuario = pc_usuario AND usuario.password = pc_userPassword;
+		WHERE usuario.correo = pc_correo AND usuario.password = pc_userPassword;
 
 		IF vn_existePassword <> 1 THEN
 			SET pcMensaje := 'Password incorrecta';
@@ -47,6 +52,15 @@ BEGIN
 	IF vn_existeUsuario = 1 AND vn_existePassword = 1 THEN
 		SET pcMensaje := 'Usuario y contraseña correctos';
 		SET pbOcurreError:=FALSE;
+		SELECT idUsuario INTO pnIdUsuario FROM usuario
+		WHERE usuario.correo = pc_correo AND usuario.password = pc_userPassword;
+		/*Checando si es administrador*/
+		SELECT COUNT(*) INTO vn_existeAdmin FROM administrador
+		WHERE administrador.idUsuario = pnIdUsuario;
+		IF vn_existeAdmin = 1 THEN
+			SELECT idAdmin INTO pnIdAdmin FROM administrador
+			WHERE administrador.idUsuario = pnIdUsuario;
+		END IF;
 	END IF;
 END $$
 DELIMITER ;

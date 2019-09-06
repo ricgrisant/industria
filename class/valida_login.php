@@ -1,22 +1,22 @@
 
 <?php
     include("class_conexion.php");
-        try 
+        try
     {
 
         $usuario = $_POST["uname"];
         $password = $_POST["psw"];
 
-        
-        
+
+
         $conexion = new Conexion();
 
 
         $sql = sprintf(
-        "CALL `Funcion_Login_Cliente` (
+        "CALL `Funcion_Login` (
         '%s' , '%s', @Mensaje , @Error);",
             stripslashes($usuario),
-            stripslashes($password)
+            stripslashes(hash("sha1",$password))
         );
 
         $resultado = $conexion->executeQuery($sql);
@@ -31,11 +31,10 @@
         } else {
             echo $result["@Mensaje"];
         }
-        
 
-    } 
+
+    }
         catch (Exception $e)
     {
-        die("error:". $e->getMessage()); 
+        die("error:". $e->getMessage());
     }
- 

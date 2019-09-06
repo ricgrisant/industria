@@ -30,7 +30,7 @@
     }
 
     if($userpassword==$userpassword2){
-      $userpassword=hash("sha512",$userpassword);
+      $userpassword=hash("sha1",$userpassword);
       $pass = false;
     }
 
@@ -70,10 +70,12 @@
       $query="SELECT @men, @booleano;";
       $select= $conexion->executeQuery($query);
       $respuesta=$conexion->getRow($select);
+      //$respuesta = array($userpassword, $nombre, $apellido, $telefono, $correo);
+      //$respuesta=$query;
     }
 
     $conexion->closeConnection();
-    echo json_encode((string)$respuesta[0]);
+    echo json_encode($respuesta[0]);
   }
   catch (Exception $e){
     die("error:". $e->getMessage());

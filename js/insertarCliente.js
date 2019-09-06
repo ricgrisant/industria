@@ -1,8 +1,9 @@
 $(function () {
- alert("Entré aquí 1");
+
   $(document).on("submit","#Form_InsertarCliente",function(event){
-    alert("Entré aquí 2");
+
     event.preventDefault();
+
     $.ajax({
         type:"POST",
         url:"class/insertarCliente.php",
