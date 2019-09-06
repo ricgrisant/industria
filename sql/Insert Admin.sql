@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS Funcion_SignUp_Cliente;
+DROP PROCEDURE IF EXISTS Funcion_Isnsert_Admin;
 DELIMITER $$
-CREATE PROCEDURE Funcion_SignUp_Cliente(
+CREATE PROCEDURE Funcion_Isnsert_Admin(
 		IN pc_userPassword 	VARCHAR(50),
 		IN pc_nombre 		VARCHAR(50),
 		IN pc_apellido	 	VARCHAR(50),
@@ -14,6 +14,7 @@ BEGIN
 	DECLARE temMensaje 			VARCHAR(1000);
 	DECLARE vn_existeCorreo 	INTEGER DEFAULT 0;
 	DECLARE vn_existeTelefono 	INTEGER DEFAULT 0;
+	DECLARE vn_idUsuarioAdmin INTEGER DEFAULT 0;
 
 	SET pbOcurreError :=TRUE;
 	SET temMensaje := '';
@@ -42,9 +43,6 @@ BEGIN
 	SELECT COUNT(*) INTO vn_existeCorreo FROM Usuario
 	WHERE usuario.correo = pc_correo;
 
-	SELECT COUNT(*) INTO vn_existeTelefono FROM Usuario
-	WHERE usuario.telefono = pc_telefono;
-
 	IF temMensaje<>'' THEN
 		SET pcMensaje := CONCAT('Campos requeridos para poder realizar la matrícula:',temMensaje);
 	END IF;
@@ -53,8 +51,10 @@ BEGIN
 		SET pcMensaje := CONCAT('- Correo ya existe');
 	END IF;
 
+	SELECT COUNT(*) INTO vn_existeTelefono FROM Usuario
+	WHERE usuario.telefono = pc_telefono;
 	IF vn_existeTelefono >0 THEN
-		SET pcMensaje := CONCAT('- Telefono ya existe');
+			SET pcMensaje := CONCAT('- Telefono ya existe');
 	END IF;
 
 	IF pcMensaje = '' THEN
@@ -62,6 +62,10 @@ BEGIN
 
 		INSERT INTO usuario (password, correo, nombre, apellido, telefono)
 			VALUES (pc_userPassword, pc_correo, pc_nombre, pc_apellido, pc_telefono);
+		SELECT idUsuario INTO vn_idUsuarioAdmin From usuario
+		WHERE usuario.correo = pc_correo;
+		INSERT INTO administrador (idUsuario)
+			VALUES (vn_idUsuarioAdmin);
 		SET pcMensaje := 'Usuario agregado con exito';
 		SET pbOcurreError:=FALSE;
 		COMMIT;

@@ -178,15 +178,15 @@ ALTER TABLE pago
 DROP TABLE IF EXISTS `publicidad`;
 CREATE TABLE IF NOT EXISTS `publicidad` (
   `idPublicidad` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `idEmpresa` int(11) NOT NULL,
+  `idPago` int(11) NOT NULL,
   `fechaInicio` date NOT NULL,
   `fechaFin` date NOT NULL,
   `imagen` varchar(250) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ALTER TABLE publicidad
-  ADD CONSTRAINT `fk_idEmpresa_Publicidad`
-  FOREIGN KEY (idEmpresa)
-  REFERENCES empresaTransporte(`idEmpresa`);
+  ADD CONSTRAINT `fk_idPago_Publicidad`
+  FOREIGN KEY (idPago)
+  REFERENCES pago(`idPago`);
 
 -- --------------------------------------------------------
 --
@@ -232,7 +232,8 @@ ALTER TABLE opinion
 DROP TABLE IF EXISTS `blog`;
 CREATE TABLE IF NOT EXISTS `blog` (
   `idBlog` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `descripcion` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `descripcion` varchar(100) COLLATE utf8_unicode_ci,
   `imagenPerfil` varchar(250) COLLATE utf8_unicode_ci,
   `fecha` date NOT NULL,
   `idUsuario` int(11) NOT NULL
