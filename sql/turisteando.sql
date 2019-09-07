@@ -253,8 +253,6 @@ CREATE TABLE IF NOT EXISTS `comentarioBlog` (
   `idUsuario` int(11) NOT NULL,
   `idBlog` int(11) NOT NULL,
   `comentario` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `numeroLikes` int(11) NOT NULL DEFAULT '0',
-  `numeroDislikes` int(11) NOT NULL DEFAULT '0',
   `fecha` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ALTER TABLE comentarioBlog
@@ -265,7 +263,42 @@ ALTER TABLE comentarioBlog
   ADD CONSTRAINT `fk_idBlog_comentarioBlog`
   FOREIGN KEY (idBlog)
   REFERENCES blog(`idBlog`);
-
+  -- --------------------------------------------------------
+  --
+  -- Estructura de tabla para la tabla `likeComentario`
+  --
+  DROP TABLE IF EXISTS `likeComentario`;
+  CREATE TABLE IF NOT EXISTS `likeComentario` (
+    `idComentarioBlog` int(11) NOT NULL,
+    `idUsuario` int(11) NOT NULL,
+    UNIQUE KEY `uq_like` (`idComentarioBlog`,`idUsuario`)
+  ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  ALTER TABLE likeComentario
+    ADD CONSTRAINT `fk_idComentario_like`
+    FOREIGN KEY (idComentarioBlog)
+    REFERENCES comentarioBlog(`idComentarioBlog`);
+  ALTER TABLE likeComentario
+    ADD CONSTRAINT `fk_idUsuario_like`
+    FOREIGN KEY (idUsuario)
+    REFERENCES usuario(`idUsuario`);
+  -- --------------------------------------------------------
+  --
+  -- Estructura de tabla para la tabla `dislikeComentario`
+  --
+  DROP TABLE IF EXISTS `dislikeComentario`;
+  CREATE TABLE IF NOT EXISTS `dislikeComentario` (
+    `idComentarioBlog` int(11) NOT NULL,
+    `idUsuario` int(11) NOT NULL,
+    UNIQUE KEY `uq_dislike` (`idComentarioBlog`,`idUsuario`)
+  ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  ALTER TABLE dislikeComentario
+    ADD CONSTRAINT `fk_idComentario_dislike`
+    FOREIGN KEY (idComentarioBlog)
+    REFERENCES comentarioBlog(`idComentarioBlog`);
+  ALTER TABLE dislikeComentario
+    ADD CONSTRAINT `fk_idUsuario_dislike`
+    FOREIGN KEY (idUsuario)
+    REFERENCES usuario(`idUsuario`);
 -- --------------------------------------------------------
 
 COMMIT;
