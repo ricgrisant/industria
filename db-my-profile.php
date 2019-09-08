@@ -47,7 +47,7 @@
                         <a href="#!" class="ed-micon"><i class="fa fa-bars"></i></a>
                         <div class="ed-mm-inn">
                             <a href="#!" class="ed-mi-close"><i class="fa fa-times"></i></a>
-                            <h4>Categorías</h4> 
+                            <h4>Categorías</h4>
                             <ul>
                                 <li><a href="family-package.html">Paquetes</a></li>
                                 <li><a href="booking-all.html">Lugares</a></li>
@@ -190,7 +190,7 @@
         </div>
     </section>
     <!--END HEADER SECTION-->
-        
+
     <!--DASHBOARD-->
 	<section>
 		<div class="db">
