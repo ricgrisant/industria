@@ -10,6 +10,8 @@ CREATE PROCEDURE Funcion_Login(
 		OUT pvNombre VARCHAR(50),
 		OUT pvApellido VARCHAR(50),
 		OUT pvTelefeno VARCHAR(40),
+		OUT pdFechaNacimiento DATE,
+		OUT pvDireccion VARCHAR(200),
 		OUT pvCorreo VARCHAR(50),
 		OUT pvImagen VARCHAR(250)
 	)
@@ -29,6 +31,8 @@ BEGIN
 	SET pvTelefeno := NULL;
 	SET pvCorreo := NULL;
 	SET pvImagen := NULL;
+	SET pdFechaNacimiento := NULL;
+	SET pvDireccion := NULL;
 	/*Comprobando que el nombreUsuario de usuario no sea null:*/
 	IF pc_correo = '' OR pc_correo IS NULL THEN
 		SET temMensaje := CONCAT(temMensaje,'usuario, ');
@@ -62,7 +66,8 @@ BEGIN
 	IF vn_existeUsuario = 1 AND vn_existePassword = 1 THEN
 		SET pcMensaje := 'Usuario y contraseña correctos';
 		SET pbOcurreError:=FALSE;
-		SELECT idUsuario, nombre, apellido, telefono, correo, imagenPerfil INTO pnIdUsuario,pvNombre, pvApellido, pvTelefeno, pvCorreo, pvImagen FROM usuario
+		SELECT idUsuario, nombre, apellido, telefono, correo, imagenPerfil, fechaNacimiento, direccion
+		INTO pnIdUsuario,pvNombre, pvApellido, pvTelefeno, pvCorreo, pvImagen, pdFechaNacimiento, pvDireccion FROM usuario
 		WHERE usuario.correo = pc_correo AND usuario.password = pc_userPassword;
 		/*Checando si es administrador*/
 		SELECT COUNT(*) INTO vn_existeAdmin FROM administrador

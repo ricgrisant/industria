@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<?php
+    session_start();
+    if(!isset($_SESSION['user']))
+        header("Location: login.php");
+?>
 <html lang="en">
 
 <head>
@@ -47,7 +52,7 @@
                         <a href="#!" class="ed-micon"><i class="fa fa-bars"></i></a>
                         <div class="ed-mm-inn">
                             <a href="#!" class="ed-mi-close"><i class="fa fa-times"></i></a>
-                            <h4>Categorías</h4> 
+                            <h4>Categorías</h4>
                             <ul>
                                 <li><a href="family-package.html">Paquetes</a></li>
                                 <li><a href="booking-all.html">Lugares</a></li>
@@ -190,7 +195,7 @@
         </div>
     </section>
     <!--END HEADER SECTION-->
-        
+
     <!--DASHBOARD-->
 	<section>
 		<div class="db">
@@ -198,7 +203,13 @@
 			<div class="db-l">
 				<div class="db-l-1">
 					<ul>
-						<li><img src="images/db-profile.jpg" alt="" />
+						<li><img src=
+								"<?php
+									if(isset($_COOKIE["Img"])){
+										echo  $_COOKIE["Img"];
+									}
+								?>"
+							/>
 						</li>
 						<li><span>80%</span> profile compl</li>
 						<li><span>18</span> Notifications</li>
@@ -238,20 +249,16 @@
 						<table class="responsive-table">
 							<tbody>
 								<tr>
-									<td>User Name</td>
+									<td>Email</td>
 									<td>:</td>
-									<td>Sam Anderson</td>
+									<td><?php echo $_COOKIE["Correo"]; ?></td>
 								</tr>
 								<tr>
 									<td>Password</td>
 									<td>:</td>
 									<td>mypasswordtour</td>
 								</tr>
-								<tr>
-									<td>Eamil</td>
-									<td>:</td>
-									<td>sam_anderson@gmail.com</td>
-								</tr>
+
 								<tr>
 									<td>Phone</td>
 									<td>:</td>

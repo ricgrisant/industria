@@ -4,7 +4,7 @@
         private $user="root";
 		private $pass="";
 		private $host="localhost";
-		private $dataBase="turisteando1";
+		private $dataBase="turisteando";
 		private $port="3306";
         private $link;
 

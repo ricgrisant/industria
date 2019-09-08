@@ -20,7 +20,7 @@
         );
 
         $resultado = $conexion->executeQuery($sql);
-        $select = $conexion->executeQuery(' SELECT  @Mensaje , @Error , @idUsr , @idAdmin , @Nombre , @Apellido , @Telefono , @Correo , @Img;');
+        $select = $conexion->executeQuery(' SELECT  @Mensaje , @Error , @idUsr , @idAdmin , @Nombre , @Apellido , @Telefono , @Correo , @Img, @FechaNac, @Direccion;');
         $result = $conexion->getRow( $select);
 
 
@@ -34,6 +34,8 @@
             setcookie("Telefono", $result["@Telefono"]);
             setcookie("Correo", $result["@Correo"]);
             setcookie("Img", $result["@Img"]);
+            setcookie("FechaNac", $result["@FechaNac"]);
+            setcookie("Direccion", $result["@Direccion"]);
             echo true;
         } else {
             echo $result["@Mensaje"];
