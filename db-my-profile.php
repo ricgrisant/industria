@@ -1,18 +1,14 @@
-<?php 
-    session_start(); 
-    if(!isset($_SESSION['user']))
-        header("Location: login.php");
-
-    var_dump($_COOKIE);
-?>
-
-
-<!DOCTYPE html>
 <?php
     session_start();
     if(!isset($_SESSION['user']))
         header("Location: login.php");
+
+    //var_dump($_COOKIE);
 ?>
+
+
+<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -260,7 +256,7 @@
 								<tr>
 									<td>Email</td>
 									<td>:</td>
-									<td><?php echo print_r($_COOKIE)//$_COOKIE['Correo']; ?></td>
+									<td><?php echo $_COOKIE['Correo']; ?></td>
 								</tr>
 								<tr>
 									<td>Password</td>
