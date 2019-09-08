@@ -1,4 +1,18 @@
+<?php 
+    session_start(); 
+    if(!isset($_SESSION['user']))
+        header("Location: login.php");
+
+    var_dump($_COOKIE);
+?>
+
+
 <!DOCTYPE html>
+<?php
+    session_start();
+    if(!isset($_SESSION['user']))
+        header("Location: login.php");
+?>
 <html lang="en">
 
 <head>
@@ -100,9 +114,9 @@
                         </div>
                         <div class="ed-com-t1-right">
                             <ul>
-                                <li><a href="login.html">Entra</a>
+                                <?php echo '<li><a>'.$_SESSION["user"].'</a>';?>
                                 </li>
-                                <li><a href="register.html">Registrarte</a>
+                                <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
                                 </li>
                             </ul>
                         </div>
@@ -198,7 +212,13 @@
 			<div class="db-l">
 				<div class="db-l-1">
 					<ul>
-						<li><img src="images/db-profile.jpg" alt="" />
+						<li><img src=
+								"<?php
+									if(isset($_COOKIE["Img"])){
+										echo  $_COOKIE["Img"];
+									}
+								?>"
+							/>
 						</li>
 						<li><span>80%</span> profile compl</li>
 						<li><span>18</span> Notifications</li>
@@ -238,20 +258,16 @@
 						<table class="responsive-table">
 							<tbody>
 								<tr>
-									<td>User Name</td>
+									<td>Email</td>
 									<td>:</td>
-									<td>Sam Anderson</td>
+									<td><?php echo $_COOKIE["Correo"]; ?></td>
 								</tr>
 								<tr>
 									<td>Password</td>
 									<td>:</td>
 									<td>mypasswordtour</td>
 								</tr>
-								<tr>
-									<td>Eamil</td>
-									<td>:</td>
-									<td>sam_anderson@gmail.com</td>
-								</tr>
+
 								<tr>
 									<td>Phone</td>
 									<td>:</td>
