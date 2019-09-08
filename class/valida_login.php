@@ -27,13 +27,13 @@
         if ($result["@Error"]==0) {
             session_start();
             $_SESSION["user"] = $usuario;
-            setcookie("idUsr", $result["@idUsr"]);
-            setcookie("idAdmin", $result["@idAdmin"]);
-            setcookie("Nombre", $result["@Nombre"]);
-            setcookie("Apellido", $result["@Apellido"]);
-            setcookie("Telefono", $result["@Telefono"]);
-            setcookie("Correo", $result["@Correo"]);
-            setcookie("Img", $result["@Img"]);
+            setcookie("idUsr", $result["@idUsr"],0,"/");
+            setcookie("idAdmin", $result["@idAdmin"],0,"/");
+            setcookie("Nombre", $result["@Nombre"],0,"/");
+            setcookie("Apellido", $result["@Apellido"],0,"/");
+            setcookie("Telefono", $result["@Telefono"],0,"/");
+            setcookie("Correo", $result["@Correo"],0,"/");
+            setcookie("Img", $result["@Img"],0,"/");
             setcookie("FechaNac", $result["@FechaNac"]);
             setcookie("Direccion", $result["@Direccion"]);
             echo true;
