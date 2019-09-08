@@ -1,3 +1,12 @@
+<?php 
+    session_start(); 
+    if(!isset($_SESSION['user']))
+        header("Location: login.php");
+
+    var_dump($_COOKIE);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,9 +109,9 @@
                         </div>
                         <div class="ed-com-t1-right">
                             <ul>
-                                <li><a href="login.html">Entra</a>
+                                <?php echo '<li><a>'.$_SESSION["user"].'</a>';?>
                                 </li>
-                                <li><a href="register.html">Registrarte</a>
+                                <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
                                 </li>
                             </ul>
                         </div>
