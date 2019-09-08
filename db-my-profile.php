@@ -3,7 +3,7 @@
     if(!isset($_SESSION['user']))
         header("Location: login.php");
 
-    var_dump($_COOKIE);
+    //var_dump($_COOKIE);
 ?>
 
 

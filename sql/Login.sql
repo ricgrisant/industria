@@ -10,10 +10,10 @@ CREATE PROCEDURE Funcion_Login(
 		OUT pvNombre VARCHAR(50),
 		OUT pvApellido VARCHAR(50),
 		OUT pvTelefeno VARCHAR(40),
-		OUT pdFechaNacimiento DATE,
-		OUT pvDireccion VARCHAR(200),
 		OUT pvCorreo VARCHAR(50),
-		OUT pvImagen VARCHAR(250)
+		OUT pvImagen VARCHAR(250),
+		OUT pdFechaNacimiento DATE,
+		OUT pvDireccion VARCHAR(200)
 	)
 
 BEGIN
