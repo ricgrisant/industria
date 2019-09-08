@@ -34,8 +34,8 @@
             setcookie("Telefono", $result["@Telefono"],0,"/");
             setcookie("Correo", $result["@Correo"],0,"/");
             setcookie("Img", $result["@Img"],0,"/");
-            setcookie("FechaNac", $result["@FechaNac"]);
-            setcookie("Direccion", $result["@Direccion"]);
+            setcookie("FechaNac", $result["@FechaNac"],0,"/");
+            setcookie("Direccion", $result["@Direccion"],0,"/");
             echo true;
         } else {
             echo $result["@Mensaje"];
