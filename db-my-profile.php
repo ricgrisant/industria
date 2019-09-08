@@ -3,7 +3,7 @@
     if(!isset($_SESSION['user']))
         header("Location: login.php");
 
-    //var_dump($_COOKIE);
+    var_dump($_COOKIE);
 ?>
 
 
@@ -114,7 +114,7 @@
                         </div>
                         <div class="ed-com-t1-right">
                             <ul>
-                                <?php echo '<li><a>'.$_SESSION["user"].'</a>';?>
+                                <?php echo '<li><a>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>';?>
                                 </li>
                                 <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
                                 </li>
