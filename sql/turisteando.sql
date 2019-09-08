@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `telefono` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `correo` varchar(50 ) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `imagenPerfil` varchar(250) DEFAULT 'C:\wamp64\www\industria\images',
+  `imagenPerfil` varchar(250) DEFAULT 'images\Profile-null.png',
   `fechaNacimiento` DATE DEFAULT NULL,
   `direccion` VARCHAR(200) DEFAULT NULL,
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
