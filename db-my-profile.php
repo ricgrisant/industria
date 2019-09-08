@@ -260,7 +260,7 @@
 								<tr>
 									<td>Email</td>
 									<td>:</td>
-									<td><?php echo $_COOKIE["Correo"]; ?></td>
+									<td><?php echo print_r($_COOKIE)//$_COOKIE['Correo']; ?></td>
 								</tr>
 								<tr>
 									<td>Password</td>
