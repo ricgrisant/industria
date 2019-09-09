@@ -11,7 +11,7 @@ alert("probando");
         data:$(this).serialize(),
         success:function(data){
          //console.log(respuesta);
-        if(data==1){
+        if(data[1]==1){
           window.location = "db-my-profile.php";
         }else{
             var msg = data

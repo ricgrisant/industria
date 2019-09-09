@@ -34,7 +34,7 @@
       $pass = false;
     }
 
-    $respuesta="";
+    $respuesta=["Error","1"];
 
     if ($nombre==null or $nombre==""){
       $respuesta="Ingrese su nombre";
@@ -60,7 +60,7 @@
     }
 
     else if($pass){
-      $respuesta="Contraseñas no concuerdan";
+      $respuesta[0]="Contraseñas no concuerdan";
     }
 
     else{
