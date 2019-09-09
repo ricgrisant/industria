@@ -15,8 +15,6 @@ $(function () {
         if(data[1]=="0"){
           window.location = "login.html";
         }else{
-          console.log(data);
-          alert(data);
             var msg = data[0]
             toastr.options = {
               "closeButton": true,
