@@ -1,5 +1,4 @@
 $(function () {
-alert("probando");
   $(document).on("submit","#Form_ActualizarPerfil",function(event){
     alert("submit");
     event.preventDefault();
@@ -10,11 +9,11 @@ alert("probando");
         dataType:"JSON",
         data:$(this).serialize(),
         success:function(data){
-         //console.log(respuesta);
-        if(data[1]==1){
-          window.location = "db-my-profile.php";
+         console.log(data);
+        if(data[1]=="0"){
+          window.location = "login.html";
         }else{
-            var msg = data
+            var msg = data[0]
             toastr.options = {
               "closeButton": true,
               "debug": false,

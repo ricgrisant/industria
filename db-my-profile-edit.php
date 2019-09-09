@@ -484,35 +484,18 @@
 									<label>Correo</label>
 								</div>
 							</div>
-                            <div class="row">
-                                <div class="input-field col s12 m6">
-                                    <input type="text" class="validate form-control"  name="text_Direccion" id="text_Direccion" value="<?php
-                                    if(isset($_COOKIE["Direccion"])){
-                                        echo  (int)$_COOKIE["Direccion"];
-                                    }
-                                    ?>">
-                                    <label>Direccion</label>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <input type="date" class="validate form-control"  name="text_FechaNac" id="text_FechaNac" min="1-1-1900" value="<?php
-                                    if(isset($_COOKIE["FechaNac"])){
-                                        echo  $_COOKIE["FechaNac"];
-                                    }
-                                    ?>">
-                                    <label>Fecha de nacimiento</label>
-                                </div>
-                            </div>
+
 
 							<div class="row db-file-upload">
 								<div class="file-field input-field">
 									<div class="db-up-btn"> <span>File</span>
 										<input type="file"> </div>
 									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text"  name="text_Img" id="text_Img" disabled value="<?php
-                                    if(isset($_COOKIE["Img"])){
-                                        echo  $_COOKIE["Img"];
-                                    }
-                                    ?>"> </div>
+    										<input class="file-path validate" type="text"  name="text_Img" id="text_Img" disabled value="<?php
+                                        if(isset($_COOKIE["Img"])){
+                                            echo  $_COOKIE["Img"];
+                                        }
+                                        ?>"> </div>
 								</div>
 							</div>
 							<div class="row">

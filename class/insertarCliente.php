@@ -37,26 +37,26 @@
     $respuesta=["Error","1"];
 
     if ($nombre==null or $nombre==""){
-      $respuesta="Ingrese su nombre";
+      $respuesta[0]="Ingrese su nombre";
     }
 
     else if ($apellido==null or $apellido==""){
-      $respuesta="Ingrese su apellido";
+      $respuesta[0]="Ingrese su apellido";
     }
 
     else if ($correo==null or $correo==""){
-      $respuesta="Ingrese el Correo ";
+      $respuesta[0]="Ingrese el Correo ";
     }
     else if ($telefono==null or $telefono==""){
-      $respuesta="Ingrese el Telefono";
+      $respuesta[0]="Ingrese el Telefono";
     }
 
     else if ($userpassword==null or $userpassword==""){
-      $respuesta="Ingrese una contraseña válida";
+      $respuesta[0]="Ingrese una contraseña válida";
     }
 
     else if ($userpassword2==null or $userpassword2==""){
-      $respuesta="Confirme la contraseña";
+      $respuesta[0]="Confirme la contraseña";
     }
 
     else if($pass){
