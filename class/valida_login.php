@@ -6,9 +6,6 @@
 
         $usuario = $_POST["uname"];
         $password = $_POST["psw"];
-
-
-
         $conexion = new Conexion();
 
         $sql = sprintf(

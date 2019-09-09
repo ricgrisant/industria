@@ -1,23 +1,20 @@
 $(function () {
-
-  $(document).on("submit","#Form_InsertarCliente",function(event){
-
+alert("probando");
+  $(document).on("submit","#Form_ActualizarPerfil",function(event){
+    alert("submit");
     event.preventDefault();
 
     $.ajax({
         type:"POST",
-        url:"class/insertarCliente.php",
+        url:"class/updatePerfil.php",
         dataType:"JSON",
         data:$(this).serialize(),
         success:function(data){
-
          //console.log(respuesta);
-        if(data[1]=="0"){
-          window.location = "login.html";
+        if(data==1){
+          window.location = "db-my-profile.php";
         }else{
-          console.log(data);
-          alert(data);
-            var msg = data[0]
+            var msg = data
             toastr.options = {
               "closeButton": true,
               "debug": false,

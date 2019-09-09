@@ -70,12 +70,11 @@
       $query="SELECT @men, @booleano;";
       $select= $conexion->executeQuery($query);
       $respuesta=$conexion->getRow($select);
-      //$respuesta = array($userpassword, $nombre, $apellido, $telefono, $correo);
-      //$respuesta=$query;
     }
 
     $conexion->closeConnection();
-    echo json_encode($respuesta[0]);
+    echo json_encode($respuesta);
+
   }
   catch (Exception $e){
     die("error:". $e->getMessage());

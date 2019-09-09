@@ -6,9 +6,9 @@ $(document).ready(function(){
         var password = $("#psw").val();
 
         if (usuario !="" && password !="" ) {
-            
+
             var parametros = `psw=${password}&uname=${usuario}`
-             
+
             $.ajax({
                   type: "POST",
                   url: "class/valida_login.php",
@@ -50,8 +50,7 @@ $(document).ready(function(){
          alert("Falta completar al menos uno de los campos");
         }
     });
-    
+
  });
- 
- 
- 
+
+

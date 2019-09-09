@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['user']))
+        header("Location: login.php");
+    //var_dump($_COOKIE);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +24,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/mob.css">
     <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/toastr.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -328,8 +335,8 @@
                                                     </ul>
                                                     <h4 class="ed-dr-men-mar-top">User login pages</h4>
                                                     <ul>
-                                                        <li><a href="register.html">Register</a></li>
-                                                        <li><a href="login.html">Login and Sign in</a></li>
+                                                        <li><a href="register.php">Register</a></li>
+                                                        <li><a href="login.php">Login and Sign in</a></li>
                                                         <li><a href="forgot-pass.html">Forgot pass</a></li>
                                                     </ul>
                                                 </div>
@@ -365,7 +372,7 @@
                 </div>
             </div>
         </div>
-		
+
 		<!-- TOP SEARCH BOX -->
         <div class="search-top">
             <div class="container">
@@ -392,7 +399,7 @@
 		<!-- END TOP SEARCH BOX -->
     </section>
     <!--END HEADER SECTION-->
-	
+
 	<!--DASHBOARD-->
 	<section>
 		<div class="db">
@@ -400,7 +407,11 @@
 			<div class="db-l">
 				<div class="db-l-1">
 					<ul>
-						<li><img src="images/db-profile.jpg" alt="" /> </li>
+						<li><img src="<?php
+                                    if(isset($_COOKIE["Img"])){
+                                        echo  $_COOKIE["Img"];
+                                    }
+                                ?>" alt="" /> </li>
 						<li><span>80%</span> profile compl</li>
 						<li><span>18</span> Notifications</li>
 					</ul>
@@ -436,54 +447,72 @@
 				<div class="db-2-com db-2-main">
 					<h4>Edit My Profile </h4>
 					<div class="db-2-main-com db2-form-pay db2-form-com">
-						<form class="col s12">
+						<form class="col s12" action="" id="Form_ActualizarPerfil" name="Form_ActualizarPerfil" method="post" role="form">
 							<div class="row">
-								<div class="input-field col s12">
-									<input type="number" class="validate">
-									<label>User Name</label>
+								<div class="input-field col s12 m6">
+									<input type="text" class="validate form-control" required name="text_Nombre" id="text_Nombre" value="<?php
+                                    if(isset($_COOKIE["Nombre"])){
+                                        echo  $_COOKIE["Nombre"];
+                                    }
+                                    ?>">
+									<label>Nombre</label>
 								</div>
+                                <div class="input-field col s12 m6">
+                                    <input type="text" class="validate form-control" required name="text_Apellido" id="text_Apellido" value="<?php
+                                    if(isset($_COOKIE["Apellido"])){
+                                        echo  $_COOKIE["Apellido"];
+                                    }
+                                    ?>">
+                                    <label>Apellido</label>
+                                </div>
 							</div>
 							<div class="row">
 								<div class="input-field col s12 m6">
-									<input type="password" class="validate">
-									<label>Enter Password</label>
+									<input type="number" class="validate form-control" required name="text_Telefono" id="text_Telefono" value="<?php
+                                    if(isset($_COOKIE["Telefono"])){
+                                        echo  (int)$_COOKIE["Telefono"];
+                                    }
+                                    ?>">
+									<label>Telefono</label>
 								</div>
 								<div class="input-field col s12 m6">
-									<input type="password" class="validate">
-									<label>Confirm Password</label>
+									<input type="email" class="validate form-control" required name="text_Correo" id="text_Correo" value="<?php
+                                    if(isset($_COOKIE["Correo"])){
+                                        echo  $_COOKIE["Correo"];
+                                    }
+                                    ?>">
+									<label>Correo</label>
 								</div>
 							</div>
-							<div class="row">
-								<div class="input-field col s12 m6">
-									<input type="email" class="validate">
-									<label>Email id</label>
-								</div>
-								<div class="input-field col s12 m6">
-									<input type="number" class="validate">
-									<label>Phone</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<select>
-										<option value="" disabled selected>Select Status</option>
-										<option value="1">Active</option>
-										<option value="2">Non-Active</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="pay-ca" type="number" class="validate">
-									<label for="pay-ca">Card Number</label>
-								</div>
-							</div>
+                            <div class="row">
+                                <div class="input-field col s12 m6">
+                                    <input type="text" class="validate form-control"  name="text_Direccion" id="text_Direccion" value="<?php
+                                    if(isset($_COOKIE["Direccion"])){
+                                        echo  (int)$_COOKIE["Direccion"];
+                                    }
+                                    ?>">
+                                    <label>Direccion</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <input type="date" class="validate form-control"  name="text_FechaNac" id="text_FechaNac" min="1-1-1900" value="<?php
+                                    if(isset($_COOKIE["FechaNac"])){
+                                        echo  $_COOKIE["FechaNac"];
+                                    }
+                                    ?>">
+                                    <label>Fecha de nacimiento</label>
+                                </div>
+                            </div>
+
 							<div class="row db-file-upload">
 								<div class="file-field input-field">
 									<div class="db-up-btn"> <span>File</span>
 										<input type="file"> </div>
 									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text"> </div>
+										<input class="file-path validate" type="text"  name="text_Img" id="text_Img" disabled value="<?php
+                                    if(isset($_COOKIE["Img"])){
+                                        echo  $_COOKIE["Img"];
+                                    }
+                                    ?>"> </div>
 								</div>
 							</div>
 							<div class="row">
@@ -726,6 +755,8 @@
 	<script src="js/wow.min.js"></script>
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
+    <script src="js/toastr.min.js"></script>
+    <script src="js/updatePerfil.js"></script>
 </body>
 
 </html>
