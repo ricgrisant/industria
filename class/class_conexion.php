@@ -35,6 +35,14 @@
 			return mysqli_fetch_array($resultado);
 		}
 
+		public function getRows($resultado){
+			return mysqli_fetch_all($resultado);
+		}
+
+		public function getRowAssoc($resultado){
+			return mysqli_fetch_assoc($resultado);
+		}
+
 		public function countRegisters($resultado){
 			return mysqli_num_rows($resultado);
 		}
@@ -52,14 +60,4 @@
 		}
     }
 
-  /*$conexion= new Conexion();
-  $query="CALL Funcion_SignUp_Cliente('Peter', 'Peter','Anguila','98765465','PeterAnguila@gmail.com', @men, @booleano);";
-      $resultados=$conexion->executeQuery($query);
-
-      $query="SELECT @men, @booleano;";
-      $select= $conexion->executeQuery($query);
-      $respuesta=$conexion->getRow($select);
-  //$respuesta=$respuesta[0];
-  $conexion->closeConnection();
-  var_dump($respuesta);*/
 ?>

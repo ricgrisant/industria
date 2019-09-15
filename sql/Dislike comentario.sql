@@ -60,7 +60,7 @@ BEGIN
 		IF vn_existeDislike = 0 THEN
 			INSERT INTO dislikeComentario(idComentarioBlog, idUsuario)
 				VALUES(pc_idComentario, pc_idUsuario);
-				SET pcMensaje := 'Dislike creado con exito';
+				SET pcMensaje := 'Marcado como no favorito';
 		ELSE
 			SET pcMensaje := 'Ya lo has marcado como no favorito antes';
 		END IF;

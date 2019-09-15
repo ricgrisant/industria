@@ -1,7 +1,25 @@
-<?php 
-    session_start(); 
+<?php
+    session_start();
     if(!isset($_SESSION['user']))
         header("Location: login.php");
+    include("class/class_conexion.php");
+    $conexion= new Conexion();
+    //$user= $_COOKIE['idUsr'];
+    $idBlog=$_GET['idBlog'];
+    $query = "CALL getBlog_Comments($idBlog, @men, @booleano);";
+    $res =$conexion->executeQuery($query);
+    $quer2 = "SELECT @men, @booleano;";
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $result = $conexion->getRows($res);
+        var_dump($result);
+
+        $filas = $conexion->countRegisters($res);
+        var_dump($filas);
+    }
+    else
+        $result = null;
+
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +42,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/mob.css">
     <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/toastr.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -53,7 +72,7 @@
                         <a href="#!" class="ed-micon"><i class="fa fa-bars"></i></a>
                         <div class="ed-mm-inn">
                             <a href="#!" class="ed-mi-close"><i class="fa fa-times"></i></a>
-                            <h4>Categorías</h4> 
+                            <h4>Categorías</h4>
                             <ul>
                                 <li><a href="family-package.html">Paquetes</a></li>
                                 <li><a href="booking-all.html">Lugares</a></li>
@@ -196,7 +215,7 @@
         </div>
     </section>
     <!--END HEADER SECTION-->
-	
+
 	<!--====== BANNER ==========-->
 	<section>
 		<div class="rows inner_banner inner_banner_1">
@@ -226,40 +245,7 @@
 					<p>World's leading tour and travels Booking website,Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience</p>
 				</div>
 				<!--===== POSTS ======-->
-				<div class="rows">
-					<div class="posts">
-						<div class="col-md-6 col-sm-6 col-xs-12"> <img src="images/iplace-6.jpg" alt="" /> </div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<h3>Thai island hopper east</h3>
-							<h5><span class="post_author">Author: Johnson</span><span class="post_date">Date: 12th May,2016</span><span class="post_city">City: Illunois</span></h5>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-							<p>Randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p> <a href="blog-inner.html" class="link-btn">Read more</a> </div>
-					</div>
-					<div class="posts">
-						<div class="col-md-6 col-sm-6 col-xs-12"> <img src="images/iplace-2.jpg" alt="" /> </div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<h3>We are Offering the hottest offers</h3>
-							<h5><span class="post_author">Author: Johnson</span><span class="post_date">Date: 12th May,2016</span><span class="post_city">City: Illunois</span></h5>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-							<p>Randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p> <a href="blog-inner.html" class="link-btn">Read more</a> </div>
-					</div>
-					<div class="posts">
-						<div class="col-md-6 col-sm-6 col-xs-12"> <img src="images/iplace-3.jpg" alt="" /> </div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<h3>Lorem ipsum dummy content</h3>
-							<h5><span class="post_author">Author: Johnson</span><span class="post_date">Date: 12th May,2016</span><span class="post_city">City: Illunois</span></h5>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-							<p>Randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p> <a href="blog-inner.html" class="link-btn">Read more</a> </div>
-					</div>
-					<div class="posts">
-						<div class="col-md-6 col-sm-6 col-xs-12"> <img src="images/iplace-4.jpg" alt="" /> </div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<h3>Lorem ipsum dummy content</h3>
-							<h5><span class="post_author">Author: Johnson</span><span class="post_date">Date: 12th May,2016</span><span class="post_city">City: Illunois</span></h5>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-							<p>Randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p> <a href="blog-inner.html" class="link-btn">Read more</a> </div>
-					</div>
-				</div>
+
 				<!--===== POST END ======-->
 			</div>
 		</div>
@@ -439,6 +425,8 @@
 	<script src="js/wow.min.js"></script>
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
+    <script src="js/toastr.min.js"></script>
+    <script src="js/nuevoBlog.js"></script>
 </body>
 
 </html>
