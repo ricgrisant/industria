@@ -328,7 +328,36 @@
                                 echo '<div class="jumbotron"><div class="d-flex align-content-end" align="right"> <div class ="p-2">',$comentario[2],'</div></div><div class="container" align="left"><h4 class="display-4">',$comentario[4],' ',$comentario[5],'</h4><hr class="my-4"><p>',$comentario[1],'</p></div><div class="p-2"><div class="d-flex align-content-end" align="right"><a id="likes',$comentario[0],'" name="likes',$comentario[0],'" class="waves-effect waves-circle waves-purple btn-floating secondary-content" onclick="likeComment(',$comentario[0],',',$user,')"><img src="images/iconic/thumb-up-2x.png" alt=""> ',$likes,'</a><a id="dislikes',$comentario[0],'" name="dislikes',$comentario[0],'"  class="waves-effect waves-circle waves-orange btn-floating secondary-content" onclick="dislikeComment(',$comentario[0],',',$user,')"><img src="images/iconic/thumb-down-2x.png" alt=""> ',$dislikes,'</a></div></div></div>';
                             }
                         }
-                    ?>
+
+                                if(isset($_SESSION['user']))
+                                    echo '<div class="container" align="left"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevoComentario">Comentar</button>
+            <div class="modal fade" id="modalNuevoComentario" tabindex="-1" role="dialog" aria-labelledby="modalNuevoBlogTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Nuevo comentario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="col s12" action="" id="Form_InsertarBlog" name="Form_InsertarBlog" method="post" role="form">
+
+                        <textarea name="textarea_Comment" id="textarea_Comment" rows="10" cols="50" placeholder="Write something here" maxlenth="200"></textarea>
+
+                        <div class="row">
+                            <div class="input-field col s2" align="center">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevoComentario" onclick="comentar(',$user,',',$resultBlog[0],')">Comentar</button> </div>
+                        </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div></div>';
+                                else
+                                    echo '<a href="" class="link-btn">Iniciar Sesión</a>';
+                            ?>
 				</div>
 				<!--===== POSTS ======-->
 
@@ -625,6 +654,71 @@
             }
           }
         });
+      }
+    </script>
+    <script>
+        function comentar(idU, idB) {
+            var comentario = document.getElementById('textarea_Comment').value;
+            var noValido = /\s/;
+            var msg = null;
+            if (noValido.test(comentario)){
+              var parametros = `user=${idU}&blog=${idB}&comment=${comentario}`
+              //alert(parametros);
+              $.ajax({
+                type:"POST",
+                url:"class/commentBlog.php",
+                dataType:"JSON",
+                data:parametros,
+                success:function(data){
+                 console.log(data);
+                if(data[1]=="0"){
+                  window.location= "blog-inner.php?idBlog="+idB;
+
+                }else{
+                    msg = data[0]
+                    toastr.options = {
+                      "closeButton": true,
+                      "debug": false,
+                      "newestOnTop": false,
+                      "progressBar": true,
+                      "positionClass": "toast-top-full-width",
+                      "preventDuplicates": true,
+                      "onclick": null,
+                      "showDuration": "30",
+                      "hideDuration": "1000",
+                      "timeOut": "5000",
+                      "extendedTimeOut": "1000",
+                      "showEasing": "swing",
+                      "hideEasing": "linear",
+                      "showMethod": "fadeIn",
+                      "hideMethod": "fadeOut"
+                    }
+                      toastr.error("ERROR",msg.toUpperCase());
+                }
+              }
+            });
+          }
+          else{
+            msg = "Debes escribir algo..."
+            toastr.options = {
+              "closeButton": true,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": true,
+              "positionClass": "toast-top-full-width",
+              "preventDuplicates": true,
+              "onclick": null,
+              "showDuration": "30",
+              "hideDuration": "1000",
+              "timeOut": "5000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+            }
+              toastr.error("ERROR",msg.toUpperCase());
+          }
       }
     </script>
 </body>
