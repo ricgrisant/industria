@@ -3,6 +3,7 @@
     include("class_conexion.php");
         try
     {
+        if (isset($_POST["uname"]) && isset($_POST["psw"])) {
 
         $usuario = $_POST["uname"];
         $password = $_POST["psw"];
@@ -42,7 +43,11 @@
             echo $result["@Mensaje"];
         }
 
-
+    }
+    else
+        {
+            Header("Location: $uri_404");
+        }   
     }
         catch (Exception $e)
     {
