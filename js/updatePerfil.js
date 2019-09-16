@@ -1,17 +1,15 @@
 $(function () {
-
-  $(document).on("submit","#Form_InsertarCliente",function(event){
-
+  $(document).on("submit","#Form_ActualizarPerfil",function(event){
+    alert("submit");
     event.preventDefault();
 
     $.ajax({
         type:"POST",
-        url:"class/insertarCliente.php",
+        url:"class/updatePerfil.php",
         dataType:"JSON",
         data:$(this).serialize(),
         success:function(data){
-
-         //console.log(respuesta);
+         console.log(data);
         if(data[1]=="0"){
           window.location = "login.html";
         }else{

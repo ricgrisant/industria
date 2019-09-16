@@ -60,7 +60,7 @@ BEGIN
 		IF vn_existeLike = 0 THEN
 			INSERT INTO likeComentario(idComentarioBlog, idUsuario)
 				VALUES(pc_idComentario, pc_idUsuario);
-				SET pcMensaje := 'Like creado con exito';
+				SET pcMensaje := 'Marcado como favorito';
 		ELSE
 			SET pcMensaje := 'Ya lo has marcado como favorito antes';
 		END IF;

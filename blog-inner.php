@@ -2,16 +2,59 @@
     session_start();
     if(!isset($_SESSION['user']))
         header("Location: login.php");
+    include("class/class_conexion.php");
+    $conexion= new Conexion();
+    $idBlog=$_GET['idBlog'];
+    $quer2 = "SELECT @men, @booleano;";
+    $resultBlog = null;
+    $resultComments = null;
+    $resultLikes = null;
+    $resultDislikes = null;
 
+    $query = "CALL getBlog($idBlog, @men, @booleano);";
+    $resBlog =$conexion->executeQuery($query);
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $resultBlog = $conexion->getRow($resBlog);
+    }
+    $conexion->closeConnection();
+    $conexion= new Conexion();
+    $query = "CALL getBlog_Comments($idBlog, @men, @booleano);";
+    $resComments = $conexion->executeQuery($query);
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $resultComments = $conexion->getRows($resComments);
+    }
+    $conexion->closeConnection();
+    $conexion= new Conexion();
+    $query = "CALL getBlog_Likes($idBlog, @men, @booleano);";
+    $resLikes = $conexion->executeQuery($query);
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $resultLikes = $conexion->getRows($resLikes);
+    }
+    $conexion->closeConnection();
+    $conexion= new Conexion();
+    $query = "CALL getBlog_Dislikes($idBlog, @men, @booleano);";
+    $resDislikes = $conexion->executeQuery($query);
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $resultDislikes = $conexion->getRows($resDislikes);
+    }
+    $conexion->closeConnection();
+    /*$conexion= new Conexion();
+    $query = "CALL getBlog_All($idBlog, @men, @booleano);";
+    $resAll = $conexion->executeQuery($query);
+    $resultAll = $conexion->getRows($resAll);
+    $conexion->closeConnection();*/
+    var_dump($resultBlog);
+    var_dump($resultComments);
+    var_dump($resultLikes);
+    var_dump($resultDislikes);
+    //var_dump($resultAll);
 ?>
-
 
 <!DOCTYPE html>
-<?php
-    if(!isset($_SESSION['user']))
-        header("Location: login.php");
-?>
-
 <html lang="en">
 
 <head>
@@ -114,9 +157,9 @@
                         </div>
                         <div class="ed-com-t1-right">
                             <ul>
-                                <?php echo '<li><a>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>';?>
+                                <li><a href="login.html">Entra</a>
                                 </li>
-                                <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
+                                <li><a href="register.html">Registrarte</a>
                                 </li>
                             </ul>
                         </div>
@@ -205,168 +248,80 @@
     </section>
     <!--END HEADER SECTION-->
 
-    <!--DASHBOARD-->
+	<!--====== BANNER ==========-->
 	<section>
-		<div class="db">
-			<!--LEFT SECTION-->
-			<div class="db-l">
-				<div class="db-l-1">
-					<ul>
-						<li><img src=
-								"<?php
-									if(isset($_COOKIE["Img"])){
-										echo  $_COOKIE["Img"];
-									}
-								?>"
-							/>
-						</li>
-						<li><span>80%</span> profile compl</li>
-						<li><span>18</span> Notifications</li>
-					</ul>
-				</div>
-				<div class="db-l-2">
-					<ul>
-						<li>
-							<a href="dashboard.html"><img src="images/icon/dbl1.png" alt="" /> All Bookings</a>
-						</li>
-						<li>
-							<a href="db-travel-booking.html"><img src="images/icon/dbl2.png" alt="" /> Travel Bookings</a>
-						</li>
-						<li>
-							<a href="db-hotel-booking.html"><img src="images/icon/dbl3.png" alt="" /> Hotel Bookings</a>
-						</li>
-						<li>
-							<a href="db-event-booking.html"><img src="images/icon/dbl4.png" alt="" /> Event Bookings</a>
-						</li>
-						<li>
-							<a href="db-my-profile.html"><img src="images/icon/dbl6.png" alt="" /> My Profile</a>
-						</li>
-						<li>
-							<a href="db-all-payment.html"><img src="images/icon/dbl9.png" alt="" /> Payments</a>
-						</li>
-						<li>
-							<a href="db-refund.html"><img src="images/icon/dbl7.png" alt="" /> Claim & Refund</a>
-						</li>
-						<li>
-							<a href="db-my-blogs.php"><img src="images/icon/22.png" alt="" /> Mis blogs</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<!--CENTER SECTION-->
-			<div class="db-2">
-				<div class="db-2-com db-2-main">
-					<h4>My Profile</h4>
-					<div class="db-2-main-com db-2-main-com-table">
-						<table class="responsive-table">
-							<tbody>
-								<tr>
-									<td>Email</td>
-									<td>:</td>
-									<td><?php
-										if(isset($_COOKIE["Correo"]))
-											echo $_COOKIE['Correo'];
-									?></td>
-								</tr>
-								<tr>
-									<td>Password</td>
-									<td>:</td>
-									<td><button type="button" class="btn btn-secondary">Cambiar contraseña</button></td>
-								</tr>
-
-								<tr>
-									<td>Phone</td>
-									<td>:</td>
-									<td><?php
-										if(isset($_COOKIE["Telefono"]))
-											echo $_COOKIE['Telefono'];
-										?>
-									</td>
-								</tr>
-								<tr>
-									<td>Date of birth</td>
-									<td>:</td>
-									<td>
-										<?php
-										if(isset($_COOKIE["FechaNac"]))
-											echo $_COOKIE['FechaNac'];
-										?>
-									</td>
-								</tr>
-								<tr>
-									<td>Address</td>
-									<td>:</td>
-									<td>
-										<?php
-										if(isset($_COOKIE["Direccion"]))
-											echo $_COOKIE['Direccion'];
-										?>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="db-mak-pay-bot">
-							<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p> <a href="db-my-profile-edit.php" class="waves-effect waves-light btn-large">Edit my profile</a> </div>
-					</div>
-				</div>
-			</div>
-			<!--RIGHT SECTION-->
-			<div class="db-3">
-				<h4>Notifications</h4>
+		<div class="rows inner_banner inner_banner_1">
+			<div class="container">
+				<h2><span>Best Tour -</span> Packages in your City</h2>
 				<ul>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr1.jpg" alt="" />
-							<h5>50% Discount Offer</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr2.jpg" alt="" />
-							<h5>paris travel package</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr3.jpg" alt="" />
-							<h5>Group Trip - Available</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr4.jpg" alt="" />
-							<h5>world best travel agency</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr5.jpg" alt="" />
-							<h5>special travel coupons</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr6.jpg" alt="" />
-							<h5>70% Offer 2018</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr7.jpg" alt="" />
-							<h5>Popular Cities</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr8.jpg" alt="" />
-							<h5>variations of passages</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
+					<li><a href="#inner-page-title">Home</a> </li>
+					<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+					<li><a href="#inner-page-title" class="bread-acti">Blog Posts</a> </li>
 				</ul>
+				<p>Book travel packages and enjoy your holidays with distinctive experience</p>
 			</div>
 		</div>
 	</section>
-	<!--END DASHBOARD-->
+	<!--====== ALL POST ==========-->
+	<section>
+		<div class="rows inn-page-bg com-colo">
+			<div class="container inn-page-con-bg tb-space pad-bot-redu-5" id="inner-page-title">
+				<!-- TITLE & DESCRIPTION -->
+				<div class="spe-title col-md-12">
+					<h2><?php
+                        if ($resultBlog!=null){
+                            echo $resultBlog[1];
+                        }
+                        else{
+                            echo "Este blog no existe!";
+                        }
+                    ?></h2>
+					<div class="title-line">
+						<div class="tl-1"></div>
+						<div class="tl-2"></div>
+						<div class="tl-3"></div>
+					</div>
+                    <br>
+                    <div>
+                        <div class="rows" align="left">
+
+                            <?php
+                                if ($resultBlog!=null){
+                                    $nombre = $resultBlog[1];
+                                    $descripcion = $resultBlog[2];
+                                    $img =$resultBlog[3];
+                                    $fecha=$resultBlog[4];
+                                    $creadorId=$resultBlog[5];
+                                    $creadorName=$resultBlog[6];
+                                    $creadorLastName=$resultBlog[7];
+                                    if(!file_exists($img)){
+                                        $img = "images/sight/".(string)rand(1,5).".jpg";
+                                    }
+                                    echo '<div class="posts"><div class="col-md-6 col-sm-6 col-xs-12"> <img src="',$img,'" alt="" /> </div><div class="col-md-6 col-sm-6 col-xs-12"><h5><span class="post_author">Autor: ',$creadorName,' ',$creadorLastName,' </span><span class="post_date">Fecha: ',$fecha,'</span></h5><p class="lead">',$descripcion,'</p>';
+                                    if ($_COOKIE["idUsr"] = $creadorId)
+                                        echo '<br><br><a href="blog-inner.php?idBlog=',$idBlog,'" class="link-btn">Editar</a></div></div>';
+                                    else
+                                        echo '</div></div>';
+                                }
+                            ?>
+
+                        </div>
+                    </div>
+                    <?php
+                        if($resultComments!=null){
+                            foreach ($resultComments as $comentario) {
+                                echo '<div class="jumbotron" align="left"><h4 class="display-4">',$comentario[4],' ',$comentario[5],'</h4><hr class="my-4"><p>',$comentario[1],'</p><div class="d-flex flex-row-reverse"> <div class ="p-2">',$comentario[2],'</div><div class="p-2">',$comentario[2],'</div></div></div>';
+                            }
+                        }
+                    ?>
+
+				</div>
+				<!--===== POSTS ======-->
+
+				<!--===== POST END ======-->
+			</div>
+		</div>
+	</section>
 	<!--====== TIPS BEFORE TRAVEL ==========-->
 	<section>
 		<div class="rows tips tips-home tb-space home_title">
@@ -542,7 +497,8 @@
 	<script src="js/wow.min.js"></script>
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
-	<script src="js/toastr.min.js"></script>
+    <script src="js/toastr.min.js"></script>
+    <script src="js/nuevoBlog.js"></script>
 </body>
 
 </html>

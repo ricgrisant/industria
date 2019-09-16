@@ -1,19 +1,19 @@
 $(function () {
-
-  $(document).on("submit","#Form_InsertarCliente",function(event){
-
+//alert("Si me cargo al iniciar");
+  $(document).on("submit","#Form_InsertarBlog",function(event){
+    //alert("Si me llamo al apretar el botón");
     event.preventDefault();
 
     $.ajax({
         type:"POST",
-        url:"class/insertarCliente.php",
+        url:"class/nuevoBlog.php",
         dataType:"JSON",
         data:$(this).serialize(),
         success:function(data){
 
-         //console.log(respuesta);
+        console.log(data);
         if(data[1]=="0"){
-          window.location = "login.html";
+          window.location = "db-my-blogs.php";
         }else{
             var msg = data[0]
             toastr.options = {
