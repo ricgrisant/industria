@@ -32,9 +32,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `telefono` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `correo` varchar(50 ) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `imagenPerfil` varchar(250) DEFAULT 'images\Profile-null.png',
-  `fechaNacimiento` DATE DEFAULT NULL,
-  `direccion` VARCHAR(200) DEFAULT NULL,
+  `imagenPerfil` varchar(250) DEFAULT 'images\Profile-null.png'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 ALTER TABLE usuario ADD CONSTRAINT uq_correo UNIQUE(correo);
 ALTER TABLE usuario ADD CONSTRAINT uq_telefono UNIQUE(telefono);

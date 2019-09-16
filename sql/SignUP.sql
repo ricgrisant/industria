@@ -34,7 +34,7 @@ BEGIN
 		SET temMensaje := CONCAT(temMensaje,'apellido, ');
 	END IF;
 
-	/*Comprobando que el apellido no sea null:*/
+	/*Comprobando que el telefono no sea null:*/
 	IF pc_telefono = '' OR pc_telefono IS NULL THEN
 		SET temMensaje := CONCAT(temMensaje,'telefono, ');
 	END IF;

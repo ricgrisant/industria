@@ -6,17 +6,16 @@ CREATE PROCEDURE Funcion_Crear_blog(
 		IN pc_descripcion 	VARCHAR(100),
 		IN pc_imagenPerfil		VARCHAR(250),
 		OUT pcMensaje 		VARCHAR(2000),
-		OUT pbOcurreError 	BOOLEAN,
-		OUT pnIdBlog	INTEGER
+		OUT pbOcurreError 	BOOLEAN
 	)
 
 BEGIN
 	DECLARE temMensaje 			VARCHAR(1000);
 	DECLARE vn_existeUsuario 	INTEGER DEFAULT 0;
 	DECLARE vd_fecha DATE;
+	DECLARE vv_imagen VARCHAR(250) DEFAULT NULL;
 
 	SET pbOcurreError :=TRUE;
-	SET pnIdBlog := NULL;
 	SET temMensaje := '';
 	SET pcMensaje := '';
 
@@ -36,12 +35,12 @@ BEGIN
 	END IF;
 
 	/*Comprobando que la imagen no sea null:*/
-	IF pc_imagenPerfil = '' OR pc_imagenPerfil IS NULL THEN
-		SET temMensaje := CONCAT(temMensaje,'imagen, ');
+	IF !(pc_imagenPerfil = '' OR pc_imagenPerfil IS NULL) IS NULL THEN
+		SET vv_imagen := pc_imagenPerfil;
 	END IF;
 
 	IF temMensaje<>'' THEN
-		SET pcMensaje := CONCAT('Campos requeridos para poder realizar la matrícula:',temMensaje);
+		SET pcMensaje := CONCAT('Campos requeridos para poder crear el blog:',temMensaje);
 	END IF;
 
 	SELECT COUNT(*) INTO vn_existeUsuario FROM Usuario
@@ -55,8 +54,7 @@ BEGIN
 		SET autocommit = 0;
 		SELECT CURDATE() INTO vd_fecha;
 		INSERT INTO blog (nombre, descripcion, imagenPerfil, fecha, idUsuario)
-			VALUES (pc_nombre, pc_descripcion, pc_imagenPerfil, vd_fecha, pc_idUsuario);
-		SELECT idBlog INTO pnIdBlog FROM blog ORDER BY idBlog LIMIT 1;
+			VALUES (pc_nombre, pc_descripcion, vv_imagen, vd_fecha, pc_idUsuario);
 		SET pcMensaje := 'Blog creado con exito';
 		SET pbOcurreError:=FALSE;
 		COMMIT;

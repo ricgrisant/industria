@@ -3,7 +3,6 @@
     if(!isset($_SESSION['user']))
         header("Location: login.php");
 
-    var_dump($_COOKIE);
 ?>
 
 
@@ -32,6 +31,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/mob.css">
     <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/toastr.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -247,6 +247,9 @@
 						<li>
 							<a href="db-refund.html"><img src="images/icon/dbl7.png" alt="" /> Claim & Refund</a>
 						</li>
+						<li>
+							<a href="db-my-blogs.php"><img src="images/icon/22.png" alt="" /> Mis blogs</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -260,39 +263,50 @@
 								<tr>
 									<td>Email</td>
 									<td>:</td>
-									<td><?php echo $_COOKIE['Correo']; ?></td>
+									<td><?php
+										if(isset($_COOKIE["Correo"]))
+											echo $_COOKIE['Correo'];
+									?></td>
 								</tr>
 								<tr>
 									<td>Password</td>
 									<td>:</td>
-									<td>mypasswordtour</td>
+									<td><button type="button" class="btn btn-secondary">Cambiar contraseña</button></td>
 								</tr>
 
 								<tr>
 									<td>Phone</td>
 									<td>:</td>
-									<td>+01 4561 3214</td>
+									<td><?php
+										if(isset($_COOKIE["Telefono"]))
+											echo $_COOKIE['Telefono'];
+										?>
+									</td>
 								</tr>
 								<tr>
 									<td>Date of birth</td>
 									<td>:</td>
-									<td>03 Jun 1990</td>
+									<td>
+										<?php
+										if(isset($_COOKIE["FechaNac"]))
+											echo $_COOKIE['FechaNac'];
+										?>
+									</td>
 								</tr>
 								<tr>
 									<td>Address</td>
 									<td>:</td>
-									<td>8800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</td>
-								</tr>
-								<tr>
-									<td>Status</td>
-									<td>:</td>
-									<td><span class="db-done">Active</span>
+									<td>
+										<?php
+										if(isset($_COOKIE["Direccion"]))
+											echo $_COOKIE['Direccion'];
+										?>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<div class="db-mak-pay-bot">
-							<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p> <a href="db-my-profile-edit.html" class="waves-effect waves-light btn-large">Edit my profile</a> </div>
+							<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p> <a href="db-my-profile-edit.php" class="waves-effect waves-light btn-large">Edit my profile</a> </div>
 					</div>
 				</div>
 			</div>
@@ -528,6 +542,7 @@
 	<script src="js/wow.min.js"></script>
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
+	<script src="js/toastr.min.js"></script>
 </body>
 
 </html>

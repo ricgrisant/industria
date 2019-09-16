@@ -3,10 +3,10 @@ DELIMITER $$
 CREATE PROCEDURE Funcion_LikeComentario(
 		IN pc_idUsuario			INTEGER,
 		IN pc_idComentario			INTEGER,
-		OUT pc_numLikes		INTEGER,
-		OUT pc_numDislikes	INTEGER,
 		OUT pcMensaje 		VARCHAR(2000),
-		OUT pbOcurreError 	BOOLEAN
+		OUT pbOcurreError 	BOOLEAN,
+		OUT pc_numLikes		INTEGER,
+		OUT pc_numDislikes	INTEGER
 	)
 
 BEGIN
@@ -60,7 +60,7 @@ BEGIN
 		IF vn_existeLike = 0 THEN
 			INSERT INTO likeComentario(idComentarioBlog, idUsuario)
 				VALUES(pc_idComentario, pc_idUsuario);
-				SET pcMensaje := 'Like creado con exito';
+				SET pcMensaje := 'Marcado como favorito';
 		ELSE
 			SET pcMensaje := 'Ya lo has marcado como favorito antes';
 		END IF;

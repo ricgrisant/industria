@@ -7,21 +7,18 @@
 
         $usuario = $_POST["uname"];
         $password = $_POST["psw"];
-
-
-
         $conexion = new Conexion();
 
         $sql = sprintf(
         "CALL `Funcion_Login` (
-        '%s' , '%s', @Mensaje , @Error , @idUsr , @idAdmin , @Nombre , @Apellido , @Telefono , @Correo , @Img, @FechaNac, @Direccion
+        '%s' , '%s', @Mensaje , @Error , @idUsr , @idAdmin , @Nombre , @Apellido , @Telefono , @Correo , @Img
         );",
             stripslashes($usuario),
             stripslashes(hash("sha1",$password))
         );
 
         $resultado = $conexion->executeQuery($sql);
-        $select = $conexion->executeQuery(' SELECT  @Mensaje , @Error , @idUsr , @idAdmin , @Nombre , @Apellido , @Telefono , @Correo , @Img, @FechaNac, @Direccion;');
+        $select = $conexion->executeQuery(' SELECT  @Mensaje , @Error , @idUsr , @idAdmin , @Nombre , @Apellido , @Telefono , @Correo , @Img;');
         $result = $conexion->getRow( $select);
 
 
@@ -35,8 +32,6 @@
             setcookie("Telefono", $result["@Telefono"],0,"/");
             setcookie("Correo", $result["@Correo"],0,"/");
             setcookie("Img", $result["@Img"],0,"/");
-            setcookie("FechaNac", $result["@FechaNac"],0,"/");
-            setcookie("Direccion", $result["@Direccion"],0,"/");
             //var_dump($_COOKIE);
             echo true;
         } else {

@@ -3,10 +3,10 @@ DELIMITER $$
 CREATE PROCEDURE Funcion_DislikeComentario(
 		IN pc_idUsuario			INTEGER,
 		IN pc_idComentario			INTEGER,
-		OUT pc_numLikes		INTEGER,
-		OUT pc_numDislikes	INTEGER,
 		OUT pcMensaje 		VARCHAR(2000),
-		OUT pbOcurreError 	BOOLEAN
+		OUT pbOcurreError 	BOOLEAN,
+		OUT pc_numLikes		INTEGER,
+		OUT pc_numDislikes	INTEGER
 	)
 
 BEGIN
@@ -60,7 +60,7 @@ BEGIN
 		IF vn_existeDislike = 0 THEN
 			INSERT INTO dislikeComentario(idComentarioBlog, idUsuario)
 				VALUES(pc_idComentario, pc_idUsuario);
-				SET pcMensaje := 'Dislike creado con exito';
+				SET pcMensaje := 'Marcado como no favorito';
 		ELSE
 			SET pcMensaje := 'Ya lo has marcado como no favorito antes';
 		END IF;

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/mob.css">
     <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/toastr.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -456,23 +457,23 @@
 				<form class="col s12" action="" id="Form_InsertarCliente" name="Form_InsertarCliente" method="post" role="form">
 					<div class="row">
 						<div class="input-field col m6 s12">
-							<input type="text" class="validate form-control" required name="text_Nombre" id="text_Nombre">
+							<input type="text" class="validate form-control" required name="text_Nombre" id="text_Nombre" maxlength="50">
 							<label>First Name</label>
 						</div>
 						<div class="input-field col m6 s12">
-							<input type="text" class="validate form-control" required name="text_Apellido" id="text_Apellido">
+							<input type="text" class="validate form-control" required name="text_Apellido" id="text_Apellido" maxlength="50">
 							<label>Last Name</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="number" class="validate form-control" required name="text_Telefono" id="text_Telefono">
+							<input type="number" class="validate form-control" required name="text_Telefono" id="text_Telefono" maxlength="50">
 							<label>Mobile</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="email" class="validate form-control" required name="text_Correo" id="text_Correo">
+							<input type="email" class="validate form-control" required name="text_Correo" id="text_Correo" maxlength="50">
 							<label>Email</label>
 						</div>
 					</div>
@@ -674,6 +675,7 @@
 	<script src="js/wow.min.js"></script>
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
+    <script src="js/toastr.min.js"></script>
     <script src="js/insertarCliente.js"></script>
 </body>
 
