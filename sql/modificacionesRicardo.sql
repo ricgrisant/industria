@@ -51,9 +51,29 @@ ALTER TABLE `empresatransporte` DROP `califiacionGeneral`
 
 INSERT INTO `turisteando`.`usuario` (`idUsuario`, `nombre`, `apellido`, `telefono`, `password`, `correo`) VALUES ('3', 'Luis', 'abc', '45454545', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'luis@turisteando.com');
 
-CREATE TRIGGER prom_calificacion AFTER INSERT ON opinion
-       FOR EACH ROW 
-            UPDATE sucursalempresatransporte s SET calificacion = 
-                (SELECT AVG( estrellas ) AS promedio
-        FROM opinion o
-        INNER JOIN sucursalempresatransporte s ON o.idEmpresaTransporte = s.idEmpresaTransporte);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pa_prom_calificacion`(idEmpresa int)
+BEGIN
+  UPDATE sucursalempresatransporte s
+    SET s.calificacion = 
+        (
+      SELECT AVG( estrellas ) AS promedio
+      FROM opinion o
+      inner join empresatransporte e on e.idEmpresaTransporte=o.idEmpresaTransporte
+      where e.idEmpresaTransporte=idEmpresa
+        );
+END
+
+INSERT INTO `turisteando`.`opinion` (
+
+`idOpinion` ,
+`opinionComentario` ,
+`idUsuario` ,
+`idEmpresaTransporte` ,
+`numeroLikes` ,
+`numeroDislikes` ,
+`fecha` ,
+`estrellas`
+)
+VALUES (
+NULL , 'Prueba3', '3', '1', '0', '0', '19-09-15', '4'
+);

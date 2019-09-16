@@ -1,3 +1,27 @@
+<?php 
+    include("class/class_conexion.php");
+
+    $conexion = new Conexion();
+
+    $sql = "SELECT *
+            FROM empresatransporte e
+            INNER JOIN sucursalempresatransporte s ON s.idempresatransporte = e.idempresatransporte";
+
+    $resultado = $conexion->executeQuery($sql);
+    $result = $conexion->getRow( $resultado);
+    var_dump($result); 
+
+    setcookie("nombre", $result["nombre"],0,"/");
+    setcookie("idRepresentante", $result["idRepresentante"],0,"/");
+    setcookie("imagenPerfil", $result["imagenPerfil"],0,"/");
+    setcookie("Descripcion", $result["Descripcion"],0,"/");
+    setcookie("ubicacion", $result["ubicacion"],0,"/");
+    setcookie("horaApertura", $result["horaApertura"],0,"/");
+    setcookie("horaCierre", $result["horaCierre"],0,"/");
+    setcookie("calificacion", $result["calificacion"],0,"/");
+    setcookie("horaSalidas", $result["horaSalidas"],0,"/");
+    setcookie("telefono", $result["telefono"],0,"/");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
