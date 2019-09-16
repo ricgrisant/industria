@@ -3,10 +3,10 @@ DELIMITER $$
 CREATE PROCEDURE Funcion_LikeComentario(
 		IN pc_idUsuario			INTEGER,
 		IN pc_idComentario			INTEGER,
-		OUT pc_numLikes		INTEGER,
-		OUT pc_numDislikes	INTEGER,
 		OUT pcMensaje 		VARCHAR(2000),
-		OUT pbOcurreError 	BOOLEAN
+		OUT pbOcurreError 	BOOLEAN,
+		OUT pc_numLikes		INTEGER,
+		OUT pc_numDislikes	INTEGER
 	)
 
 BEGIN

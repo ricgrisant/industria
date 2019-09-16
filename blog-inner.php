@@ -2,6 +2,7 @@
     session_start();
     if(!isset($_SESSION['user']))
         header("Location: login.php");
+    $user= $_COOKIE['idUsr'];
     include("class/class_conexion.php");
     $conexion= new Conexion();
     $idBlog=$_GET['idBlog'];
@@ -310,11 +311,24 @@
                     <?php
                         if($resultComments!=null){
                             foreach ($resultComments as $comentario) {
-                                echo '<div class="jumbotron" align="left"><h4 class="display-4">',$comentario[4],' ',$comentario[5],'</h4><hr class="my-4"><p>',$comentario[1],'</p><div class="d-flex flex-row-reverse"> <div class ="p-2">',$comentario[2],'</div><div class="p-2">',$comentario[2],'</div></div></div>';
+                                $likes = 0;
+                                $dislikes = 0;
+                                if($resultLikes!=null){
+                                    foreach ($resultLikes as $like) {
+                                        if($like[0]==$comentario[0])
+                                            $likes = $like[1];
+                                    }
+                                }
+                                if($resultDislikes!=null){
+                                    foreach ($resultDislikes as $dislike) {
+                                        if($dislike[0]==$comentario[0])
+                                            $dislikes = $dislike[1];
+                                    }
+                                }
+                                echo '<div class="jumbotron"><div class="d-flex align-content-end" align="right"> <div class ="p-2">',$comentario[2],'</div></div><div class="container" align="left"><h4 class="display-4">',$comentario[4],' ',$comentario[5],'</h4><hr class="my-4"><p>',$comentario[1],'</p></div><div class="p-2"><div class="d-flex align-content-end" align="right"><a id="likes',$comentario[0],'" name="likes',$comentario[0],'" class="waves-effect waves-circle waves-purple btn-floating secondary-content" onclick="likeComment(',$comentario[0],',',$user,')"><img src="images/iconic/thumb-up-2x.png" alt=""> ',$likes,'</a><a id="dislikes',$comentario[0],'" name="dislikes',$comentario[0],'"  class="waves-effect waves-circle waves-orange btn-floating secondary-content" onclick="dislikeComment(',$comentario[0],',',$user,')"><img src="images/iconic/thumb-down-2x.png" alt=""> ',$dislikes,'</a></div></div></div>';
                             }
                         }
                     ?>
-
 				</div>
 				<!--===== POSTS ======-->
 
@@ -499,6 +513,120 @@
 	<script src="js/custom.js"></script>
     <script src="js/toastr.min.js"></script>
     <script src="js/nuevoBlog.js"></script>
+    <script>
+        function likeComment(idC, idU) {
+          var parametros = `user=${idU}&comment=${idC}`
+          $.ajax({
+            type:"POST",
+            url:"class/likeComment.php",
+            dataType:"JSON",
+            data:parametros,
+            success:function(data){
+             console.log(data);
+            if(data[3]=="0"){
+              var msg = data[2]
+                toastr.options = {
+                  "closeButton": true,
+                  "debug": false,
+                  "newestOnTop": false,
+                  "progressBar": true,
+                  "positionClass": "toast-top-full-width",
+                  "preventDuplicates": true,
+                  "onclick": null,
+                  "showDuration": "30",
+                  "hideDuration": "1000",
+                  "timeOut": "5000",
+                  "extendedTimeOut": "1000",
+                  "showEasing": "swing",
+                  "hideEasing": "linear",
+                  "showMethod": "fadeIn",
+                  "hideMethod": "fadeOut"
+                }
+                  toastr.success("SUCCESS",msg.toUpperCase());
+                document.querySelector('#likes'+idC).innerHTML='<img src="images/iconic/thumb-up-2x.png" alt="">'+data[0];
+                document.querySelector('#dislikes'+idC).innerHTML='<img src="images/iconic/thumb-down-2x.png" alt="">'+data[1];
+            }else{
+                var msg = data[2]
+                toastr.options = {
+                  "closeButton": true,
+                  "debug": false,
+                  "newestOnTop": false,
+                  "progressBar": true,
+                  "positionClass": "toast-top-full-width",
+                  "preventDuplicates": true,
+                  "onclick": null,
+                  "showDuration": "30",
+                  "hideDuration": "1000",
+                  "timeOut": "5000",
+                  "extendedTimeOut": "1000",
+                  "showEasing": "swing",
+                  "hideEasing": "linear",
+                  "showMethod": "fadeIn",
+                  "hideMethod": "fadeOut"
+                }
+                  toastr.error("ERROR",msg.toUpperCase());
+            }
+          }
+        });
+      }
+    </script>
+    <script>
+        function dislikeComment(idC, idU) {
+          var parametros = `user=${idU}&comment=${idC}`
+          $.ajax({
+            type:"POST",
+            url:"class/dislikeComment.php",
+            dataType:"JSON",
+            data:parametros,
+            success:function(data){
+             console.log(data);
+            if(data[3]=="0"){
+              var msg = data[2]
+                toastr.options = {
+                  "closeButton": true,
+                  "debug": false,
+                  "newestOnTop": false,
+                  "progressBar": true,
+                  "positionClass": "toast-top-full-width",
+                  "preventDuplicates": true,
+                  "onclick": null,
+                  "showDuration": "30",
+                  "hideDuration": "1000",
+                  "timeOut": "5000",
+                  "extendedTimeOut": "1000",
+                  "showEasing": "swing",
+                  "hideEasing": "linear",
+                  "showMethod": "fadeIn",
+                  "hideMethod": "fadeOut"
+                }
+                  toastr.success("SUCCESS",msg.toUpperCase());
+                document.querySelector('#likes'+idC).innerHTML='<img src="images/iconic/thumb-up-2x.png" alt="">'+data[0];
+                document.querySelector('#dislikes'+idC).innerHTML='<img src="images/iconic/thumb-down-2x.png" alt="">'+data[1];
+            }else{
+                var msg = data[2]
+                toastr.options = {
+                  "closeButton": true,
+                  "debug": false,
+                  "newestOnTop": false,
+                  "progressBar": true,
+                  "positionClass": "toast-top-full-width",
+                  "preventDuplicates": true,
+                  "onclick": null,
+                  "showDuration": "30",
+                  "hideDuration": "1000",
+                  "timeOut": "5000",
+                  "extendedTimeOut": "1000",
+                  "showEasing": "swing",
+                  "hideEasing": "linear",
+                  "showMethod": "fadeIn",
+                  "hideMethod": "fadeOut"
+                }
+                  toastr.error("ERROR",msg.toUpperCase());
+            }
+          }
+        });
+      }
+    </script>
 </body>
 
 </html>
