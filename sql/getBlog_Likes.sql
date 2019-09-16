@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS getBlog_Comments;
+DROP PROCEDURE IF EXISTS getBlog_Likes;
 DELIMITER $$
-CREATE PROCEDURE getBlog_Comments(
+CREATE PROCEDURE getBlog_Likes(
 		IN pc_idBlog 		INTEGER,
 		OUT pcMensaje 		VARCHAR(2000),
 		OUT pbOcurreError 	BOOLEAN
@@ -30,9 +30,13 @@ BEGIN
 	END IF;
 
 	IF pcMensaje = '' THEN
-		SELECT COUNT(*) FROM likeComentario
+		SELECT comentarioBlog.idComentarioBlog, COUNT(*) FROM likeComentario
 		INNER JOIN comentarioBlog ON likeComentario.idComentarioBlog = comentarioBlog.idComentarioBlog
-		WHERE comentarioBlog.idBlog = pc_idBlog;
+		WHERE comentarioBlog.idBlog = pc_idBlog
+		GROUP BY comentarioBlog.idComentarioBlog;
+
+		SET pbOcurreError := FALSE;
+		SET pcMensaje :='Todo bien';
 	END IF;
 END $$
 DELIMITER ;

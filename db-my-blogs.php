@@ -11,12 +11,13 @@
     $res2 = $conexion->executeQuery($quer2);
     if($res2[0]==0){
         $result = $conexion->getRows($res);
+
         //var_dump($result);
         //$filas = $conexion->countRegisters($res);
     }
     else
         $result = null;
-
+    $conexion->closeConnection();
 ?>
 
 <!DOCTYPE html>

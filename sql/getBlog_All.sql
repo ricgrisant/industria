@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS getBlog_Comments;
+DROP PROCEDURE IF EXISTS getBlog_All;
 DELIMITER $$
-CREATE PROCEDURE getBlog_Comments(
+CREATE PROCEDURE getBlog_All(
 		IN pc_idBlog 		INTEGER,
 		OUT pcMensaje 		VARCHAR(2000),
 		OUT pbOcurreError 	BOOLEAN
@@ -30,9 +30,21 @@ BEGIN
 	END IF;
 
 	IF pcMensaje = '' THEN
-		SELECT comentarioBlog.idComentarioBlog, comentarioBlog.comentario, comentarioBlog.fecha, usuario.idUsuario, usuario.nombre, usuario.apellido, usuario.imagenPerfil FROM comentarioBlog
-		INNER JOIN usuario ON comentarioBlog.idUsuario =usuario.idUsuario
+		SELECT idBlog, nombre, descripcion, imagenPerfil, fecha, idUsuario FROM blog
+		WHERE blog.idBlog = pc_idBlog;
+
+		SELECT idComentarioBlog, idUsuario,comentario, fecha FROM comentarioBlog
 		WHERE comentarioBlog.idBlog = pc_idBlog;
+
+		SELECT comentarioBlog.idComentarioBlog, COUNT(*) AS dislikes FROM dislikeComentario
+		INNER JOIN comentarioBlog ON dislikeComentario.idComentarioBlog = comentarioBlog.idComentarioBlog
+		WHERE comentarioBlog.idBlog = pc_idBlog
+		GROUP BY comentarioBlog.idComentarioBlog;
+
+		SELECT comentarioBlog.idComentarioBlog, COUNT(*) AS likes FROM likeComentario
+		INNER JOIN comentarioBlog ON likeComentario.idComentarioBlog = comentarioBlog.idComentarioBlog
+		WHERE comentarioBlog.idBlog = pc_idBlog
+		GROUP BY comentarioBlog.idComentarioBlog;
 
 		SET pbOcurreError := FALSE;
 		SET pcMensaje :='Todo bien';

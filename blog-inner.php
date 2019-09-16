@@ -4,22 +4,54 @@
         header("Location: login.php");
     include("class/class_conexion.php");
     $conexion= new Conexion();
-    //$user= $_COOKIE['idUsr'];
     $idBlog=$_GET['idBlog'];
-    $query = "CALL getBlog_Comments($idBlog, @men, @booleano);";
-    $res =$conexion->executeQuery($query);
     $quer2 = "SELECT @men, @booleano;";
+    $resultBlog = null;
+    $resultComments = null;
+    $resultLikes = null;
+    $resultDislikes = null;
+
+    $query = "CALL getBlog($idBlog, @men, @booleano);";
+    $resBlog =$conexion->executeQuery($query);
     $res2 = $conexion->executeQuery($quer2);
     if($res2[0]==0){
-        $result = $conexion->getRows($res);
-        var_dump($result);
-
-        $filas = $conexion->countRegisters($res);
-        var_dump($filas);
+        $resultBlog = $conexion->getRow($resBlog);
     }
-    else
-        $result = null;
-
+    $conexion->closeConnection();
+    $conexion= new Conexion();
+    $query = "CALL getBlog_Comments($idBlog, @men, @booleano);";
+    $resComments = $conexion->executeQuery($query);
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $resultComments = $conexion->getRows($resComments);
+    }
+    $conexion->closeConnection();
+    $conexion= new Conexion();
+    $query = "CALL getBlog_Likes($idBlog, @men, @booleano);";
+    $resLikes = $conexion->executeQuery($query);
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $resultLikes = $conexion->getRows($resLikes);
+    }
+    $conexion->closeConnection();
+    $conexion= new Conexion();
+    $query = "CALL getBlog_Dislikes($idBlog, @men, @booleano);";
+    $resDislikes = $conexion->executeQuery($query);
+    $res2 = $conexion->executeQuery($quer2);
+    if($res2[0]==0){
+        $resultDislikes = $conexion->getRows($resDislikes);
+    }
+    $conexion->closeConnection();
+    /*$conexion= new Conexion();
+    $query = "CALL getBlog_All($idBlog, @men, @booleano);";
+    $resAll = $conexion->executeQuery($query);
+    $resultAll = $conexion->getRows($resAll);
+    $conexion->closeConnection();*/
+    var_dump($resultBlog);
+    var_dump($resultComments);
+    var_dump($resultLikes);
+    var_dump($resultDislikes);
+    //var_dump($resultAll);
 ?>
 
 <!DOCTYPE html>
@@ -236,13 +268,53 @@
 			<div class="container inn-page-con-bg tb-space pad-bot-redu-5" id="inner-page-title">
 				<!-- TITLE & DESCRIPTION -->
 				<div class="spe-title col-md-12">
-					<h2>Holiday Tour <span>Blog</span> Posts</h2>
+					<h2><?php
+                        if ($resultBlog!=null){
+                            echo $resultBlog[1];
+                        }
+                        else{
+                            echo "Este blog no existe!";
+                        }
+                    ?></h2>
 					<div class="title-line">
 						<div class="tl-1"></div>
 						<div class="tl-2"></div>
 						<div class="tl-3"></div>
 					</div>
-					<p>World's leading tour and travels Booking website,Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience</p>
+                    <br>
+                    <div>
+                        <div class="rows" align="left">
+
+                            <?php
+                                if ($resultBlog!=null){
+                                    $nombre = $resultBlog[1];
+                                    $descripcion = $resultBlog[2];
+                                    $img =$resultBlog[3];
+                                    $fecha=$resultBlog[4];
+                                    $creadorId=$resultBlog[5];
+                                    $creadorName=$resultBlog[6];
+                                    $creadorLastName=$resultBlog[7];
+                                    if(!file_exists($img)){
+                                        $img = "images/sight/".(string)rand(1,5).".jpg";
+                                    }
+                                    echo '<div class="posts"><div class="col-md-6 col-sm-6 col-xs-12"> <img src="',$img,'" alt="" /> </div><div class="col-md-6 col-sm-6 col-xs-12"><h5><span class="post_author">Autor: ',$creadorName,' ',$creadorLastName,' </span><span class="post_date">Fecha: ',$fecha,'</span></h5><p class="lead">',$descripcion,'</p>';
+                                    if ($_COOKIE["idUsr"] = $creadorId)
+                                        echo '<br><br><a href="blog-inner.php?idBlog=',$idBlog,'" class="link-btn">Editar</a></div></div>';
+                                    else
+                                        echo '</div></div>';
+                                }
+                            ?>
+
+                        </div>
+                    </div>
+                    <?php
+                        if($resultComments!=null){
+                            foreach ($resultComments as $comentario) {
+                                echo '<div class="jumbotron" align="left"><h4 class="display-4">',$comentario[4],' ',$comentario[5],'</h4><hr class="my-4"><p>',$comentario[1],'</p><div class="d-flex flex-row-reverse"> <div class ="p-2">',$comentario[2],'</div><div class="p-2">',$comentario[2],'</div></div></div>';
+                            }
+                        }
+                    ?>
+
 				</div>
 				<!--===== POSTS ======-->
 
