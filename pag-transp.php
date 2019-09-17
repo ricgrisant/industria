@@ -1,27 +1,4 @@
-<?php 
-    include("class/class_conexion.php");
 
-    $conexion = new Conexion();
-
-    $sql = "SELECT *
-            FROM empresatransporte e
-            INNER JOIN sucursalempresatransporte s ON s.idempresatransporte = e.idempresatransporte";
-
-    $resultado = $conexion->executeQuery($sql);
-    $result = $conexion->getRow( $resultado);
-    var_dump($result); 
-
-    setcookie("nombre", $result["nombre"],0,"/");
-    setcookie("idRepresentante", $result["idRepresentante"],0,"/");
-    setcookie("imagenPerfil", $result["imagenPerfil"],0,"/");
-    setcookie("Descripcion", $result["Descripcion"],0,"/");
-    setcookie("ubicacion", $result["ubicacion"],0,"/");
-    setcookie("horaApertura", $result["horaApertura"],0,"/");
-    setcookie("horaCierre", $result["horaCierre"],0,"/");
-    setcookie("calificacion", $result["calificacion"],0,"/");
-    setcookie("horaSalidas", $result["horaSalidas"],0,"/");
-    setcookie("telefono", $result["telefono"],0,"/");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -230,6 +207,30 @@
 			</div>
 		</div>
 	</section>
+    <?php 
+    include("class/class_conexion.php");
+
+    $conexion = new Conexion();
+
+    $sql = "SELECT *
+            FROM empresatransporte e
+            INNER JOIN sucursalempresatransporte s ON s.idempresatransporte = e.idempresatransporte";
+
+    $resultado = $conexion->executeQuery($sql);
+    $result = $conexion->getRow( $resultado);
+    var_dump($result); 
+
+    setcookie("nombre", $result["nombre"],0,"/");
+    setcookie("idRepresentante", $result["idRepresentante"],0,"/");
+    setcookie("imagenPerfil", $result["imagenPerfil"],0,"/");
+    setcookie("Descripcion", $result["Descripcion"],0,"/");
+    setcookie("ubicacion", $result["ubicacion"],0,"/");
+    setcookie("horaApertura", $result["horaApertura"],0,"/");
+    setcookie("horaCierre", $result["horaCierre"],0,"/");
+    setcookie("calificacion", $result["calificacion"],0,"/");
+    setcookie("horaSalidas", $result["horaSalidas"],0,"/");
+    setcookie("telefono", $result["telefono"],0,"/");
+?>
 	<!--====== TOUR DETAILS ==========-->
 	<section>
 		<div class="rows inn-page-bg com-colo">
@@ -237,16 +238,64 @@
 				<div class="col-md-9">
 					<!--====== TOUR TITLE ==========-->
 					<div class="tour_head">
-						<h2>The Best of Brazil & Argentina <span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span><span class="tour_rat">4.5</span></h2> </div>
+						<h2> <?php echo $_COOKIE['nombre']; ?> 
+                        <span class="tour_star">
+                            <?php 
+                                switch (round($_COOKIE['calificacion'])) {
+                                    case 0:
+                                            echo 'Sin Calificar';
+                                        break;
+
+                                    case 1:
+                                        echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        break;
+
+                                    case 2:
+                                        for ($i=0; $i <2 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+
+                                    case 3:
+                                        for ($i=0; $i <3 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+
+                                    case 4:
+                                        for ($i=0; $i <4 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+
+                                    case 5:
+                                        for ($i=0; $i <5 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+                                    
+                                    default:
+                                        for ($i=0; $i <5 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="false"></i>';
+                                        }
+                                        break;
+                                }
+                         ?> </span>
+                            <span class="tour_rat">
+                                <?php echo $_COOKIE['calificacion'].' de '.'5';?>
+                                
+                            </span>
+                        </h2> 
+                        </div>
 					<!--====== TOUR DESCRIPTION ==========-->
 					<div class="tour_head1">
-						<h3>Description</h3>
-						<p>Discover two of South America’s greatest cities, Rio de Janeiro and Buenos Aires, at a leisurely pace. A major highlight on this journey is a visit to Iguassu Falls in between your two city stays. It truly is one of the most spectacular sights on Earth. See the impressive falls from both the Brazilian and Argentine sides.</p>
-						<p>Brazil’s view takes you through clouds of mist and the opportunity to see these 275 falls, spanning nearly two miles! Argentina’s side allows you to walk along the boardwalk network and embark on a jungle train through the forest for unforgettable views. Hear the deafening roar and admire the brilliant rainbows created by the clouds of spray, and take in the majesty of this wonder of the world. From vibrant cities to scenic beauty, this vacation to Rio de Janeiro, Iguassu Falls, and Buenos Aires will leave you with vacation memories you’ll cherish for life.</p>
+						<h3>Descripción</h3>
+						<?php echo '<p>'.ucfirst($_COOKIE['Descripcion']).'</p>'; 
+                        ?>
 					</div>
 					<!--====== ROOMS: HOTEL BOOKING ==========-->
 					<div class="tour_head1 hotel-book-room">
-						<h3>Photo Gallery</h3>
+						<h3>Imágenes</h3>
 						<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 							<!-- Indicators -->
 							<ol class="carousel-indicators carousel-indicators-1">
@@ -288,76 +337,19 @@
 					</div>
 					<!--====== TOUR LOCATION ==========-->
 					<div class="tour_head1 tout-map map-container">
-						<h3>Location</h3>
+						<h3>Ubicación</h3>
 						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6290415.157581651!2d-93.99661009218904!3d39.661150926343694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880b2d386f6e2619%3A0x7f15825064115956!2sIllinois%2C+USA!5e0!3m2!1sen!2sin!4v1467884030780" allowfullscreen></iframe>
 					</div>
 					<!--====== ABOUT THE TOUR ==========-->
 					<div class="tour_head1">
-						<h3>About The Tour</h3>
-						<table>
-							<tr>
-								<th>Places covered</th>
-								<th class="event-res">Inclusions</th>
-								<th class="event-res">Exclusions</th>
-								<th>Event Date</th>
-							</tr>
-							<tr>
-								<td>Rio De Janeiro ,Brazil</td>
-								<td class="event-res">Accommodation</td>
-								<td class="event-res">Return Airfare & Taxes</td>
-								<td>Nov 12, 2017</td>
-							</tr>
-							<tr>
-								<td>Iguassu Falls </td>
-								<td class="event-res">8 Breakfast, 3 Dinners</td>
-								<td class="event-res">Arrival & Departure transfers</td>
-								<td>Nov 14, 2017</td>
-							</tr>
-							<tr>
-								<td>Peru,Lima </td>
-								<td class="event-res">First-class Travel</td>
-								<td class="event-res">travel insurance</td>
-								<td>Nov 16, 2017</td>
-							</tr>
-							<tr>
-								<td>Cusco & Buenos Aires </td>
-								<td class="event-res">Free Sightseeing</td>
-								<td class="event-res">Service tax of 4.50%</td>
-								<td>Nov 18, 2017</td>
-							</tr>
-						</table>
-					</div>
-					<!--====== DURATION ==========-->
-					<div class="tour_head1 l-info-pack-days days">
-						<h3>Detailed Day Wise Itinerary</h3>
-						<ul>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 1</span> Arrival and Evening Dhow Cruise</h4>
-								<p>Arrive at the airport and transfer to hotel. Check-in time at the hotel will be at 2:00 PM. In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
-							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 2</span> City Tour and Evening Free for Leisure</h4>
-								<p>After breakfast, proceed for tour of Dubai city. Visit Jumeirah Mosque, World Trade Centre, Palaces and Dubai Museum. Enjoy your overnight stay at the hotel.In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
-							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 3</span> Desert Safari with Dinner</h4>
-								<p>Relish a yummy breakfast and later, proceed to explore the city on your own. Enjoy shopping at Mercato Shopping Mall, Dubai Mall and Wafi City. In the evening, enjoy the desert safari experience and belly dance performance. Relish a mouth-watering barbecue dinner and enjoy staying overnight in Dubai.</p>
-							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 4</span> Day at leisure</h4>
-								<p>Savour a satiating breakfast and relax for a while. Day Free for leisure. Overnight stay will be arranged in Dubai. In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
-							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 5</span> Departure</h4>
-								<p>Fill your tummy with yummy breakfast and relax for a while. Later, check out from the hotel and proceed for your onward journey.In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
-							</li>
-						</ul>
+						<h3>Horarios de Salida</h3>
+                        <?php echo '<p style="text-align: center;font-size: x-large;background: coral;" >'.$_COOKIE['horaSalidas'].'</p>'; ?>
 					</div>
 					<div>
 						<div class="dir-rat">
 							<div class="dir-rat-inn dir-rat-title">
-								<h3>Write Your Rating Here</h3>
-								<p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text</p>
+								<h3>Déjanos Tu Comentario</h3> 
+								<p> <?php echo ucwords("Ayúdanos a mejorar dejándonos tu comentario aquí."."<br>"."Recuerda que debes estar registrado para hacerlo"); ?> </p>
 								<fieldset class="rating">
 									<input type="radio" id="star5" name="rating" value="5" />
 									<label class="full" for="star5" title="Awesome - 5 stars"></label>
@@ -471,27 +463,20 @@
 					</div>
 				</div>
 				<div class="col-md-3 tour_r">
-					<!--====== SPECIAL OFFERS ==========-->
-					<div class="tour_right tour_offer">
-						<div class="band1"><img src="images/offer.png" alt="" /> </div>
-						<p>Special Offer</p>
-						<h4>$500<span class="n-td">
-								<span class="n-td-1">$800</span>
-								</span>
-							</h4> <a href="booking.html" class="link-btn">Book Now</a> </div>
 					<!--====== TRIP INFORMATION ==========-->
 					<div class="tour_right tour_incl tour-ri-com">
-						<h3>Trip Information</h3>
+						<h3>Información General</h3>
 						<ul>
-							<li>Location : Rio,Brazil</li>
-							<li>Arrival Date: Nov 12, 2017</li>
-							<li>Departure Date: Nov 21, 2017</li>
-							<li>Free Sightseeing & Hotel</li>
+                            <?php 
+                                    echo '<li>Ubicación : '.$_COOKIE["ubicacion"].'</li>';
+                                    echo '<li>Apertura : '.$_COOKIE["horaApertura"].'</li>';
+                                    echo '<li>Cierre : '.$_COOKIE["horaCierre"].'</li>';
+                             ?>
 						</ul>
 					</div>
 					<!--====== PACKAGE SHARE ==========-->
 					<div class="tour_right head_right tour_social tour-ri-com">
-						<h3>Share This Package</h3>
+						<h3>Nuestras Redes</h3>
 						<ul>
 							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
 							<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
@@ -502,14 +487,14 @@
 					</div>
 					<!--====== HELP PACKAGE ==========-->
 					<div class="tour_right head_right tour_help tour-ri-com">
-						<h3>Help & Support</h3>
+						<h3>Contactanos</h3>
 						<div class="tour_help_1">
-							<h4 class="tour_help_1_call">Call Us Now</h4>
-							<h4><i class="fa fa-phone" aria-hidden="true"></i> 10-800-123-000</h4> </div>
+							<h4 class="tour_help_1_call">Telefono</h4>
+							<h4><i class="fa fa-phone" aria-hidden="true"></i> <?php echo '<p>'.$_COOKIE['telefono'].'</p>'; ?> </h4> </div>
 					</div>
 					<!--====== PUPULAR TOUR PACKAGES ==========-->
 					<div class="tour_right tour_rela tour-ri-com">
-						<h3>Popular Packages</h3>
+						<h3>Te Puede Interesar</h3>
 						<div class="tour_rela_1"> <img src="images/related1.png" alt="" />
 							<h4>Dubai 7Days / 6Nights</h4>
 							<p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text</p> <a href="#" class="link-btn">View this Package</a> </div>
