@@ -15,34 +15,37 @@
         $query = "CALL getBlog($idBlog, @men, @booleano);";
         $resBlog =$conexion->executeQuery($query);
         $res2 = $conexion->executeQuery($quer2);
-        if($res2[0]==0){
-            $resultBlog = $conexion->getRow($resBlog);
+        //var_dump($resBlog);
+        if (!is_bool($resBlog)){
+            if($res2[0]==0){
+                $resultBlog = $conexion->getRow($resBlog);
+            }
+            $conexion->closeConnection();
+            $conexion= new Conexion();
+            $query = "CALL getBlog_Comments($idBlog, @men, @booleano);";
+            $resComments = $conexion->executeQuery($query);
+            $res2 = $conexion->executeQuery($quer2);
+            if($res2[0]==0){
+                $resultComments = $conexion->getRows($resComments);
+            }
+            $conexion->closeConnection();
+            $conexion= new Conexion();
+            $query = "CALL getBlog_Likes($idBlog, @men, @booleano);";
+            $resLikes = $conexion->executeQuery($query);
+            $res2 = $conexion->executeQuery($quer2);
+            if($res2[0]==0){
+                $resultLikes = $conexion->getRows($resLikes);
+            }
+            $conexion->closeConnection();
+            $conexion= new Conexion();
+            $query = "CALL getBlog_Dislikes($idBlog, @men, @booleano);";
+            $resDislikes = $conexion->executeQuery($query);
+            $res2 = $conexion->executeQuery($quer2);
+            if($res2[0]==0){
+                $resultDislikes = $conexion->getRows($resDislikes);
+            }
+            $conexion->closeConnection();
         }
-        $conexion->closeConnection();
-        $conexion= new Conexion();
-        $query = "CALL getBlog_Comments($idBlog, @men, @booleano);";
-        $resComments = $conexion->executeQuery($query);
-        $res2 = $conexion->executeQuery($quer2);
-        if($res2[0]==0){
-            $resultComments = $conexion->getRows($resComments);
-        }
-        $conexion->closeConnection();
-        $conexion= new Conexion();
-        $query = "CALL getBlog_Likes($idBlog, @men, @booleano);";
-        $resLikes = $conexion->executeQuery($query);
-        $res2 = $conexion->executeQuery($quer2);
-        if($res2[0]==0){
-            $resultLikes = $conexion->getRows($resLikes);
-        }
-        $conexion->closeConnection();
-        $conexion= new Conexion();
-        $query = "CALL getBlog_Dislikes($idBlog, @men, @booleano);";
-        $resDislikes = $conexion->executeQuery($query);
-        $res2 = $conexion->executeQuery($quer2);
-        if($res2[0]==0){
-            $resultDislikes = $conexion->getRows($resDislikes);
-        }
-        $conexion->closeConnection();
         /*$conexion= new Conexion();
         $query = "CALL getBlog_All($idBlog, @men, @booleano);";
         $resAll = $conexion->executeQuery($query);
@@ -301,8 +304,8 @@
                                             $img = "images/sight/".(string)rand(1,5).".jpg";
                                         }
                                         echo '<div class="posts"><div class="col-md-6 col-sm-6 col-xs-12"> <img src="',$img,'" alt="" /> </div><div class="col-md-6 col-sm-6 col-xs-12"><h5><span class="post_author">Autor: ',$creadorName,' ',$creadorLastName,' </span><span class="post_date">Fecha: ',$fecha,'</span></h5><p class="lead">',$descripcion,'</p>';
-                                        if ($_COOKIE["idUsr"] = $creadorId)
-                                            echo '<br><br><a href="blog-inner.php?idBlog=',$idBlog,'" class="link-btn">Editar</a></div></div>';
+                                        if ($_COOKIE["idUsr"] == $creadorId)
+                                            echo '<br><br><a onclick="eliminarBlog(',$resultBlog[0],')" class="link-btn" >Eliminar</a></div></div>';
                                         else
                                             echo '</div></div>';
                                     }
@@ -335,7 +338,7 @@
                               }
                             }
                           }
-                          if(isset($_SESSION['user'])){
+                          if(isset($_SESSION['user']) and !is_bool($resBlog)){
                               echo '<div class="container" align="left"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevoComentario">Comentar</button><div class="modal fade" id="modalNuevoComentario" tabindex="-1" role="dialog" aria-labelledby="modalNuevoBlogTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLongTitle">Nuevo comentario</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><form class="col s12" action="" id="Form_InsertarBlog" name="Form_InsertarBlog" method="post" role="form"><textarea name="textarea_Comment" id="textarea_Comment" rows="10" cols="50" placeholder="Write something here" maxlenth="200"></textarea><div class="row"><div class="input-field col s2" align="center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevoComentario" onclick="comentar(',$user,',',$resultBlog[0],')">Comentar</button> </div></div></form></div></div></div></div></div>';
                             }
                             else{
@@ -517,7 +520,10 @@
     				<li><a href="#" class="sh1"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> </li>
     			</ul>
     		</div>
+
     	</section>
+
+
     	<!--========= Scripts ===========-->
     	<script src="js/jquery-latest.min.js"></script>
     	<script src="js/bootstrap.js"></script>
@@ -719,6 +725,45 @@
                  console.log(data);
                 if(data[1]=="0"){
                   window.location= "blog-inner.php?idBlog="+idB;
+                }else{
+                    msg = data[0]
+                    toastr.options = {
+                      "closeButton": true,
+                      "debug": false,
+                      "newestOnTop": false,
+                      "progressBar": true,
+                      "positionClass": "toast-top-full-width",
+                      "preventDuplicates": true,
+                      "onclick": null,
+                      "showDuration": "30",
+                      "hideDuration": "1000",
+                      "timeOut": "5000",
+                      "extendedTimeOut": "1000",
+                      "showEasing": "swing",
+                      "hideEasing": "linear",
+                      "showMethod": "fadeIn",
+                      "hideMethod": "fadeOut"
+                    }
+                      toastr.error("ERROR",msg.toUpperCase());
+                }
+              }
+            });
+          }
+        </script>
+        <script>
+            function eliminarBlog(idB) {
+              alert("borrando el blog "+idB);
+                var msg = null;
+              var parametros = `blog=${idB}`
+              $.ajax({
+                type:"POST",
+                url:"class/deleteBlog.php",
+                dataType:"JSON",
+                data:parametros,
+                success:function(data){
+                 console.log(data);
+                if(data[1]=="0"){
+                  window.location= "db-my-blogs.php";
                 }else{
                     msg = data[0]
                     toastr.options = {
