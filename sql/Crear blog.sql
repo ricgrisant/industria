@@ -35,7 +35,7 @@ BEGIN
 	END IF;
 
 	/*Comprobando que la imagen no sea null:*/
-	IF !(pc_imagenPerfil = '' OR pc_imagenPerfil IS NULL) IS NULL THEN
+	IF !(pc_imagenPerfil = '' OR pc_imagenPerfil IS NULL) THEN
 		SET vv_imagen := pc_imagenPerfil;
 	END IF;
 

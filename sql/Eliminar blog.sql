@@ -3,7 +3,8 @@ DELIMITER $$
 CREATE PROCEDURE Funcion_Eliminar_Blog(
 		IN pc_idBlog			INTEGER,
 		OUT pcMensaje 		VARCHAR(2000),
-		OUT pbOcurreError 	BOOLEAN
+		OUT pbOcurreError 	BOOLEAN,
+		OUT pvImagen VARCHAR(250)
 	)
 
 BEGIN
@@ -14,6 +15,7 @@ BEGIN
 	SET pbOcurreError :=TRUE;
 	SET temMensaje := '';
 	SET pcMensaje := '';
+	SET pvImagen := null;
 
 	/*Comprobando que el idBlog no sea null:*/
 	IF pc_idBlog = 0 OR pc_idBlog IS NULL THEN
@@ -33,6 +35,7 @@ BEGIN
 
 	IF pcMensaje = '' THEN
 		SET autocommit = 0;
+		SELECT imagenPerfil INTO pvImagen FROM blog WHERE idBlog = pc_idBlog;
 
 		DELETE FROM likeComentario WHERE idComentarioBlog IN
 		(SELECT idComentarioBlog FROM comentarioBlog WHERE idBlog = pc_idBlog);

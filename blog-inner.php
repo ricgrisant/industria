@@ -752,7 +752,7 @@
         </script>
         <script>
             function eliminarBlog(idB) {
-              alert("borrando el blog "+idB);
+              //alert("borrando el blog "+idB);
                 var msg = null;
               var parametros = `blog=${idB}`
               $.ajax({

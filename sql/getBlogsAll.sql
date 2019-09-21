@@ -7,7 +7,8 @@ CREATE PROCEDURE getBlogsAll(
 
 BEGIN
 	SELECT blog.idBlog, blog.nombre, blog.descripcion, blog.imagenPerfil, blog.fecha, usuario.idUsuario, usuario.nombre, usuario.apellido FROM blog
-	INNER JOIN usuario ON usuario.idUsuario = blog.idUsuario;
+	INNER JOIN usuario ON usuario.idUsuario = blog.idUsuario
+	ORDER BY blog.idBlog;
 	SET pcMensaje := "Todo bien";
 	SET pbOcurreError := TRUE;
 END $$

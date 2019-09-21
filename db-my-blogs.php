@@ -275,7 +275,7 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <form class="col s12" action="" id="Form_InsertarBlog" name="Form_InsertarBlog" method="post" role="form">
+                            <form class="col s12" action="class/uploadBlogPicture.php" id="Form_InsertarBlog" name="Form_InsertarBlog" method="post" role="form" enctype="multipart/form-data">
 
                                 <input type="hidden" class="validate form-control" required name="text_idUser" id="text_idUser"
                                 value="<?php
@@ -296,14 +296,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input type="text" class="validate form-control" required name="text_Img" id="text_Img" maxlength="250">
-                                        <label>Imagen</label>
+                                        <input type="file" class="validate form-control" required name="Img" id="Img">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="input-field col s2" align="center">
-                                    <input type="submit" value="Crear" class="waves-effect waves-light tourz-sear-btn" > </div>
+                                    <input type="submit" value="Crear" name="submit" class="waves-effect waves-light tourz-sear-btn" > </div>
                                 </div>
                             </form>
                           </div>
@@ -492,7 +491,7 @@
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
     <script src="js/toastr.min.js"></script>
-    <script src="js/nuevoBlog.js"></script>
+    <!--script src="js/nuevoBlog.js"></script-->
 </body>
 
 </html>
