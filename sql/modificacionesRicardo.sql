@@ -77,3 +77,18 @@ INSERT INTO `turisteando`.`opinion` (
 VALUES (
 NULL , 'Prueba3', '3', '1', '0', '0', '19-09-15', '4'
 );
+
+CREATE TABLE IF NOT EXISTS `destino` (
+  `idDestino` int(11) NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`idDestino`)
+);
+
+CREATE TABLE IF NOT EXISTS `destinoXempresa` (
+  `idDestino` int(11) NOT NULL,
+  `idEmpresa` varchar(50) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`idDestino`)
+);
+
+ ALTER TABLE destinoXempresa ADD FOREIGN KEY (idDestino) REFERENCES destino (idDestino) ;
+ ALTER TABLE destinoXempresa ADD FOREIGN KEY (idEmpresa) REFERENCES empresatransporte (idEmpresaTransporte) ;

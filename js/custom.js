@@ -76,39 +76,6 @@ $(document).ready(function() {
     $('.slider').slider();
 
     //AUTO COMPLETE CITY SELECT
-    $('#select-city,#select-city-1,#select-city-2,#select-city-3,#select-city-4,#select-city-5.autocomplete').autocomplete({
-        data: {
-            "Tegucigalpa": null,
-            "San Pedro Sula": null,
-            "La Ceiba": null,
-            "Tela": null,
-            "Trujillo": null,
-            "La Esperanza": null,
-            "Copán Ruinas": null,
-            "Santa Rosa de Copán": null
-        },
-        limit: 8, // The max amount of results that can be shown at once. Default: Infinity.
-        onAutocomplete: function(val) {
-            // Callback function when value is autcompleted.
-        },
-        minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    });
-
-    $('#select-search,#select-search-1,#select-search-2.autocomplete').autocomplete({
-        data: {
-            "Luna de Miel": 'images/icon/7.png',
-            "Paquetes Familiares": 'images/icon/8.png',
-            "Turismo": 'images/icon/9.png',
-            "Paradas": 'images/icon/10.png',
-            "Holiday Hotel Inn": 'images/icon/13.png',
-            "Viajes": 'images/icon/14.png'
-        },
-        limit: 8, // The max amount of results that can be shown at once. Default: Infinity.
-        onAutocomplete: function(val) {
-            // Callback function when value is autcompleted.
-        },
-        minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    });
 
 });
 
