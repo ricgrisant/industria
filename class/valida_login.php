@@ -43,7 +43,7 @@
     else
         {
             Header("Location: $uri_404");
-        }   
+        }
     }
         catch (Exception $e)
     {
