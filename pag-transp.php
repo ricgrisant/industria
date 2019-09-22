@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/mob.css">
     <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/toastr.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -100,11 +101,21 @@
                             </ul>
                         </div>
                         <div class="ed-com-t1-right">
-                            <ul>
-                                <li><a href="login.html">Entra</a>
-                                </li>
-                                <li><a href="register.html">Registrarte</a>
-                                </li>
+                            <ul> 
+                                <?php
+                                session_start();
+                                if (isset($_SESSION["user"])) {
+                                    echo '<li><a>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>
+                                        </li>
+                                        <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
+                                        </li>';}
+                                    else {
+                                        echo '<ul><li><a href="login.html">Logueate</a></li>
+                                            <li><a href="register.html">Registrate</a>
+                                            </li>
+                                             </ul>';
+                                    }
+                                    ?>
                             </ul>
                         </div>
                         <div class="ed-com-t1-social">
@@ -121,7 +132,6 @@
                 </div>
             </div>
         </div>
-
         <!-- LOGO AND MENU SECTION -->
         <div class="top-logo" data-spy="affix" data-offset-top="250">
             <div class="container">
@@ -228,7 +238,9 @@
                 <div class="col-md-9">
                     <!--====== TOUR TITLE ==========-->
                     <div class="tour_head">
-                        <h2> <?php echo $result['nombre']; ?> 
+                        <h2> <?php echo $result['nombre'];
+                        echo '<div class="auto" id="idEmpresa" style="display: none">'.$_GET["idEmpresa"].'</div>';
+                        ?> 
                         <span class="tour_star">
                             <?php 
                                 switch (round($result['calificacion'])) {
@@ -362,86 +374,80 @@
                             <div class="dir-rat-inn">
                                 <form id="subComentario" class="dir-rat-form">
                                     <div class='starrr' style=" font-size: 25px;"></div>
-                                    <div id="opinion" class="form-group col-md-12 pad-left-o">
-                                        <textarea placeholder="Escribe Aquí tu opinión"></textarea>
+                                    <div  class="form-group col-md-12 pad-left-o">
+                                        <textarea id="opinion" placeholder="Escribe Aquí tu opinión"></textarea>
                                     </div>
                                     <div class="form-group col-md-12 pad-left-o">
                                         <input type="submit" value="SUBMIT" class="link-btn"> 
                                     </div>
                                 </form>
                             </div>
-                            <!--COMMENT RATING-->
-                            <div class="dir-rat-inn dir-rat-review">
+                            <?php 
+
+                                $sql2 = "SELECT * FROM turisteando.opinion;";
+
+                                $resultado2 = $conexion->executeQuery($sql2);
+
+                                
+                                while ($row2 = $conexion->getRow($resultado2)) {
+
+                        echo '  <!--COMMENT RATING-->
+                        <div class="dir-rat-inn dir-rat-review">
                                 <div class="row">
                                     <div class="col-md-3 dir-rat-left"> <img src="images/reviewer/4.jpeg" alt="">
-                                        <p>Orange Fab & Weld <span>19th January, 2017</span> </p>
+                                        <p>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'<span>'.$row2["fecha"].'</span> </p>
                                     </div>
                                     <div class="col-md-9 dir-rat-right">
-                                        <div class="dir-rat-star"> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </div>
-                                        <p>Michael & his team have been helping us with our eqiupment finance for the past 5 years - I think that says a quite a lot.. Michael is always ready to go the extra mile, always available, always helpfull that goes the same for his team that work with him - definatley our first phone call.</p>
-                                        <ul>
-                                            <li><a href="#"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-                                        </ul>
+                                        <div class="dir-rat-star">';
+
+                                             switch (round($row2['estrellas'])) {
+                                    case 0:
+                                            echo 'Sin Calificar';
+                                        break;
+
+                                    case 1:
+                                        echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        break;
+
+                                    case 2:
+                                        for ($i=0; $i <2 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+
+                                    case 3:
+                                        for ($i=0; $i <3 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+
+                                    case 4:
+                                        for ($i=0; $i <4 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+
+                                    case 5:
+                                        for ($i=0; $i <5 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                        }
+                                        break;
+                                    
+                                    default:
+                                        for ($i=0; $i <5 ; $i++) { 
+                                            echo '<i class="fa fa-star" aria-hidden="false"></i>';
+                                        }
+                                        break;
+                                }
+                                        echo '</div>
+                                        <p>'.$row2["opinionComentario"].'</p>
                                     </div>
                                 </div>
                             </div>
-                            <!--COMMENT RATING-->
-                            <div class="dir-rat-inn dir-rat-review">
-                                <div class="row">
-                                    <div class="col-md-3 dir-rat-left"> <img src="images/reviewer/3.jpeg" alt="">
-                                        <p>Orange Fab & Weld <span>19th January, 2017</span> </p>
-                                    </div>
-                                    <div class="col-md-9 dir-rat-right">
-                                        <div class="dir-rat-star"> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </div>
-                                        <p>Michael & his team have been helping us with our eqiupment finance for the past 5 years - I think that says a quite a lot.. Michael is always ready to go the extra mile, always available, always helpfull that goes the same for his team that work with him - definatley our first phone call.</p>
-                                        <ul>
-                                            <li><a href="#"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--COMMENT RATING-->
-                            <div class="dir-rat-inn dir-rat-review">
-                                <div class="row">
-                                    <div class="col-md-3 dir-rat-left"> <img src="images/reviewer/1.jpg" alt="">
-                                        <p>Orange Fab & Weld <span>19th January, 2017</span> </p>
-                                    </div>
-                                    <div class="col-md-9 dir-rat-right">
-                                        <div class="dir-rat-star"> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </div>
-                                        <p>Michael & his team have been helping us with our eqiupment finance for the past 5 years - I think that says a quite a lot.. Michael is always ready to go the extra mile, always available, always helpfull that goes the same for his team that work with him - definatley our first phone call.</p>
-                                        <ul>
-                                            <li><a href="#"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                                            <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            </div>';    
+                                  } 
+                                  $conexion->closeConnection();
+                            ?>
                 <div class="col-md-3 tour_r">
                     <!--====== TRIP INFORMATION ==========-->
                     <div class="tour_right tour_incl tour-ri-com">
@@ -661,6 +667,7 @@
     <!--========= Scripts ===========-->
     <script src="js/jquery-latest.min.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/toastr.min.js"></script>
     <script src="js/wow.min.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="js/custom.js"></script>

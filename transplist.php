@@ -129,18 +129,28 @@
                     <div class="col-md-12">
                         <div class="ed-com-t1-left">
                             <ul>
-                                <li><a href="#">Contact: Lake Road, Suite 180 Farmington Hills, U.S.A.</a>
+                                <li><a href="#">Contacto: ricgrisant@gmail.com, Tegucigalpa, Honduras</a>
                                 </li>
-                                <li><a href="#">Phone: +101-1231-1231</a>
+                                <li><a href="#">Móvil: +504-3162-2193</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="ed-com-t1-right">
-                            <ul>
-                                <li><a href="login.html">Sign In</a>
-                                </li>
-                                <li><a href="register.html">Sign Up</a>
-                                </li>
+                            <ul> 
+                                <?php
+                                session_start();
+                                if (isset($_SESSION["user"])) {
+                                    echo '<li><a>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>
+                                        </li>
+                                        <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
+                                        </li>';}
+                                    else {
+                                        echo '<ul><li><a href="login.html">Logueate</a></li>
+                                            <li><a href="register.html">Registrate</a>
+                                            </li>
+                                             </ul>';
+                                    }
+                                    ?>
                             </ul>
                         </div>
                         <div class="ed-com-t1-social">

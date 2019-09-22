@@ -7,11 +7,6 @@
 
 
 <!DOCTYPE html>
-<?php
-    if(!isset($_SESSION['user']))
-        header("Location: login.php");
-?>
-
 <html lang="en">
 
 <head>
@@ -113,11 +108,20 @@
                             </ul>
                         </div>
                         <div class="ed-com-t1-right">
-                            <ul>
-                                <?php echo '<li><a>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>';?>
-                                </li>
-                                <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
-                                </li>
+                            <ul> 
+                                <?php
+                                if (isset($_SESSION["user"])) {
+                                    echo '<li><a>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>
+                                        </li>
+                                        <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
+                                        </li>';}
+                                    else {
+                                        echo '<ul><li><a href="login.html">Logueate</a></li>
+                                            <li><a href="register.html">Registrate</a>
+                                            </li>
+                                             </ul>';
+                                    }
+                                    ?>
                             </ul>
                         </div>
                         <div class="ed-com-t1-social">

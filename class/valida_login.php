@@ -25,6 +25,7 @@
         if ($result["@Error"]==0) {
             session_start();
             $_SESSION["user"] = $usuario;
+            $_SESSION["idUsr"] = $result["@idUsr"];
             setcookie("idUsr", $result["@idUsr"],0,"/");
             setcookie("idAdmin", $result["@idAdmin"],0,"/");
             setcookie("Nombre", $result["@Nombre"],0,"/");

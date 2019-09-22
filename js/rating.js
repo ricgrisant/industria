@@ -8,23 +8,23 @@ $(document).ready(function(){
 	$("#subComentario").submit(function(event){
 		event.preventDefault();
 		var rating = $('.starrr .fa-star').length;
-        event.preventDefault();
-        console.log(rating);
+    var idEmpresa = $('#idEmpresa').text();
+    var opinion = $('#opinion').val();
 
-        /*if (usuario !="" && password !="" ) {
+        if (rating !="" && opinion !="" ) {
 
-            var parametros = `psw=${password}&uname=${usuario}`
+            var parametros = `rating=${rating}&opinion=${opinion}&idEmpresa=${idEmpresa}`
 
             $.ajax({
                   type: "POST",
-                  url: "class/valida_login.php",
+                  url: "class/nuevaOpinion.php",
                   datatype: "html",
                   data: parametros,
                 success:function(data){
                     console.log(data);
-                    console.log(data == true);
-                    if(data==1){
-                        window.location = "db-my-profile.php";
+                    if(data==1 || data==true){
+                        alert('Comentario cargado con exito');
+                        location.reload();
                     }else{
                         var msg = data
                         toastr.options = {
@@ -54,7 +54,7 @@ $(document).ready(function(){
 
         } else {
          alert("Falta completar al menos uno de los campos");
-        }*/
+        }
     
 	});
  });
