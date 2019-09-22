@@ -5,7 +5,7 @@
     include("class/class_conexion.php");
     $conexion= new Conexion();
     $user= $_COOKIE['idUsr'];
-    $query = "CALL getBlogs($user, @men, @booleano);";
+    $query = "CALL getBlogsAll(@men, @booleano);";
     $res =$conexion->executeQuery($query);
     $quer2 = "SELECT @men, @booleano;";
     $res2 = $conexion->executeQuery($quer2);
@@ -254,62 +254,19 @@
                                 $img =$fila[3];
                                 $fecha=$fila[4];
                                 $creador=$fila[5];
+                                $creadorName=$fila[6];
+                                $creadorLastName=$fila[7];
                                 if(!file_exists($img)){
                                     $img = "images/sight/".(string)rand(1,5).".jpg";
                                 }
-                                echo '<div class="posts" id=',$idBlog,' name=',$idBlog,'><div class="col-md-6 col-sm-6 col-xs-12"> <img src="',$img,'" alt="" /> </div><div class="col-md-6 col-sm-6 col-xs-12"><h3>',$nombre,'</h3><h5><span class="post_author">Autor: ',$_COOKIE["Nombre"],' </span><span class="post_date">Fecha: ',$fecha,'</span></h5>',$descripcion,' <br><br><a href="blog-inner.php?idBlog=',$idBlog,'" class="link-btn">Read more</a> </div></div>';
+                                echo '<div class="posts" id=',$idBlog,' name=',$idBlog,'><div class="col-md-6 col-sm-6 col-xs-12"> <img src="',$img,'" alt="" /> </div><div class="col-md-6 col-sm-6 col-xs-12"><h3>',$nombre,'</h3><h5><span class="post_author">Autor: ',$creadorName,' ',$creadorLastName,' </span><span class="post_date">Fecha: ',$fecha,'</span></h5>',$descripcion,' <br><br><a href="blog-inner.php?idBlog=',$idBlog,'" class="link-btn">Read more</a> </div></div>';
                             }
                         }
-                        else echo '<div class="posts"><div class="col-md-6 col-sm-6 col-xs-12"> <h3>No tienes blogs</h3> </div></div>';
+                        else echo '<div class="posts"><div class="col-md-6 col-sm-6 col-xs-12"> <h3>No hay blogs</h3> </div></div>';
 
                         echo '';
                     ?>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevoBlog">Blog Nuevo</button>
-                    <div class="modal fade" id="modalNuevoBlog" tabindex="-1" role="dialog" aria-labelledby="modalNuevoBlogTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Blog nuevo</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <form class="col s12" action="class/uploadBlogPicture.php" id="Form_InsertarBlog" name="Form_InsertarBlog" method="post" role="form" enctype="multipart/form-data">
 
-                                <input type="hidden" class="validate form-control" required name="text_idUser" id="text_idUser"
-                                value="<?php
-                                    if(isset($_COOKIE["idUsr"])){
-                                        echo  $_COOKIE["idUsr"];
-                                    }
-                                ?>">
-
-                                <div class="row">
-                                    <div class="input-field col m6 s12">
-                                        <input type="text" class="validate form-control" required name="text_Nombre" id="text_Nombre" maxlength="50">
-                                        <label>Nombre</label>
-                                    </div>
-                                    <div class="input-field col m6 s12">
-                                        <input type="text" class="validate form-control" required name="text_Descripcion" id="text_Descripcion" maxlength="100">
-                                        <label>Descripcion</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <input type="file" class="validate form-control" required name="Img" id="Img">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="input-field col s2" align="center">
-                                    <input type="submit" value="Crear" name="submit" class="waves-effect waves-light tourz-sear-btn" > </div>
-                                </div>
-                            </form>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
                 </div>
 				<!--===== POST END ======-->
 			</div>
@@ -491,7 +448,7 @@
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
     <script src="js/toastr.min.js"></script>
-    <!--script src="js/nuevoBlog.js"></script-->
+    <script src="js/nuevoBlog.js"></script>
 </body>
 
 </html>

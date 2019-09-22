@@ -22,8 +22,8 @@ BEGIN
 		SET pcMensaje := CONCAT('Campos requeridos para poder realizar la matrícula:',temMensaje);
 	END IF;
 
-	SELECT COUNT(*) INTO vn_existeBlog FROM Usuario
-	WHERE usuario.idUsuario = pc_idBlog;
+	SELECT COUNT(*) INTO vn_existeBlog FROM blog
+	WHERE blog.idBlog = pc_idBlog;
 
 	IF vn_existeBlog = 0 THEN
 		SET pcMensaje := CONCAT('No existe el blog ',pc_idBlog);

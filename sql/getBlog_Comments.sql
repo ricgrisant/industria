@@ -22,8 +22,8 @@ BEGIN
 		SET pcMensaje := CONCAT('Campos requeridos para poder realizar la matrícula:',temMensaje);
 	END IF;
 
-	SELECT COUNT(*) INTO vn_existeBlog FROM Usuario
-	WHERE usuario.idUsuario = pc_idBlog;
+	SELECT COUNT(*) INTO vn_existeBlog FROM blog
+	WHERE blog.idBlog = pc_idBlog;
 
 	IF vn_existeBlog = 0 THEN
 		SET pcMensaje := CONCAT('No existe el blog ',pc_idBlog);
@@ -32,7 +32,8 @@ BEGIN
 	IF pcMensaje = '' THEN
 		SELECT comentarioBlog.idComentarioBlog, comentarioBlog.comentario, comentarioBlog.fecha, usuario.idUsuario, usuario.nombre, usuario.apellido, usuario.imagenPerfil FROM comentarioBlog
 		INNER JOIN usuario ON comentarioBlog.idUsuario =usuario.idUsuario
-		WHERE comentarioBlog.idBlog = pc_idBlog;
+		WHERE comentarioBlog.idBlog = pc_idBlog
+		ORDER BY comentarioBlog.idComentarioBlog ASC;
 
 		SET pbOcurreError := FALSE;
 		SET pcMensaje :='Todo bien';

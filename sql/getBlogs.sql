@@ -31,7 +31,8 @@ BEGIN
 
 	IF pcMensaje = '' THEN
 		SELECT idBlog, nombre, descripcion, imagenPerfil, fecha, idUsuario FROM blog
-		WHERE blog.idUsuario = pc_idUser;
+		WHERE blog.idUsuario = pc_idUser
+		ORDER BY idBlog;
 	END IF;
 END $$
 DELIMITER ;
