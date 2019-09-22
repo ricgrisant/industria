@@ -409,11 +409,14 @@
 					<ul>
 						<li><img src="<?php
                                     if(isset($_COOKIE["Img"])){
-                                        echo  $_COOKIE["Img"];
+                                        if (file_exists($_COOKIE["Img"])){
+                                            echo $_COOKIE["Img"];
+                                        }
+                                        else{
+                                            echo "images/Profile-null.png";
+                                        }
                                     }
                                 ?>" alt="" /> </li>
-						<li><span>80%</span> profile compl</li>
-						<li><span>18</span> Notifications</li>
 					</ul>
 				</div>
 				<div class="db-l-2">
@@ -449,6 +452,12 @@
 					<div class="db-2-main-com db2-form-pay db2-form-com">
 						<form class="col s12" action="" id="Form_ActualizarPerfil" name="Form_ActualizarPerfil" method="post" role="form">
 							<div class="row">
+                                <input type="hidden" class="validate form-control" required name="text_idUser" id="text_idUser" value="
+                                <?php
+                                    if(isset($_COOKIE["idUsr"])){
+                                        echo  $_COOKIE["idUsr"];
+                                    }
+                                ?>">
 								<div class="input-field col s12 m6">
 									<input type="text" class="validate form-control" required name="text_Nombre" id="text_Nombre" value="<?php
                                     if(isset($_COOKIE["Nombre"])){
@@ -482,20 +491,6 @@
                                     }
                                     ?>">
 									<label>Correo</label>
-								</div>
-							</div>
-
-
-							<div class="row db-file-upload">
-								<div class="file-field input-field">
-									<div class="db-up-btn"> <span>File</span>
-										<input type="file"> </div>
-									<div class="file-path-wrapper">
-    										<input class="file-path validate" type="text"  name="text_Img" id="text_Img" disabled value="<?php
-                                        if(isset($_COOKIE["Img"])){
-                                            echo  $_COOKIE["Img"];
-                                        }
-                                        ?>"> </div>
 								</div>
 							</div>
 							<div class="row">
