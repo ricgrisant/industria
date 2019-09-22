@@ -1,8 +1,11 @@
 <?php
     session_start();
-    if(!isset($_SESSION['user']))
+    include("class/class_conexion.php");
+    if(!isset($_SESSION['user'])){
         header("Location: login.php");
-    //var_dump($_COOKIE);
+    }
+    $user= $_COOKIE['idUsr'];
+//    var_dump($_COOKIE);
 ?>
 
 
@@ -215,14 +218,18 @@
 						<li><img src=
 								"<?php
 									if(isset($_COOKIE["Img"])){
-										echo  $_COOKIE["Img"];
-									}
+                                        if (file_exists($_COOKIE["Img"])){
+                                            echo $_COOKIE["Img"];
+                                        }
+                                        else{
+                                            echo "images/Profile-null.png";
+                                        }
+                                    }
 								?>"
 							/>
 						</li>
-						<li><span>80%</span> profile compl</li>
-						<li><span>18</span> Notifications</li>
 					</ul>
+
 				</div>
 				<div class="db-l-2">
 					<ul>
@@ -261,6 +268,22 @@
 						<table class="responsive-table">
 							<tbody>
 								<tr>
+									<td>Nombre</td>
+									<td>:</td>
+									<td><?php
+										if(isset($_COOKIE["Nombre"]))
+											echo $_COOKIE['Nombre'];
+									?></td>
+								</tr>
+								<tr>
+									<td>Apellido</td>
+									<td>:</td>
+									<td><?php
+										if(isset($_COOKIE["Apellido"]))
+											echo $_COOKIE['Apellido'];
+									?></td>
+								</tr>
+								<tr>
 									<td>Email</td>
 									<td>:</td>
 									<td><?php
@@ -268,11 +291,7 @@
 											echo $_COOKIE['Correo'];
 									?></td>
 								</tr>
-								<tr>
-									<td>Password</td>
-									<td>:</td>
-									<td><button type="button" class="btn btn-secondary">Cambiar contraseña</button></td>
-								</tr>
+
 
 								<tr>
 									<td>Phone</td>
@@ -283,33 +302,98 @@
 										?>
 									</td>
 								</tr>
-								<tr>
-									<td>Date of birth</td>
-									<td>:</td>
-									<td>
-										<?php
-										if(isset($_COOKIE["FechaNac"]))
-											echo $_COOKIE['FechaNac'];
-										?>
-									</td>
-								</tr>
-								<tr>
-									<td>Address</td>
-									<td>:</td>
-									<td>
-										<?php
-										if(isset($_COOKIE["Direccion"]))
-											echo $_COOKIE['Direccion'];
-										?>
-									</td>
-								</tr>
+
 							</tbody>
 						</table>
 						<div class="db-mak-pay-bot">
-							<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p> <a href="db-my-profile-edit.php" class="waves-effect waves-light btn-large">Edit my profile</a> </div>
+							<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters
+							</p>
+							<a href="db-my-profile-edit.php" class="btn waves-effect waves-light red lighten-2">Edit my profile</a>
+							<a class="btn waves-effect waves-light orange lighten-2" data-toggle="modal" data-target="#modalPasswordChange">Cambiar contraseña</a>
+							<a class="btn waves-effect waves-light blue lighten-2" data-toggle="modal" data-target="#modalImagenChange">Cambiar imagen</a>
+						</div>
 					</div>
 				</div>
 			</div>
+			<!--Modal de la contraseña-->
+			<div class="modal fade" id="modalPasswordChange" tabindex="-1" role="dialog" aria-labelledby="modalPasswordChangeTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Contraseña nueva</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="col s12" id="FormPasswordChange" name="FormPasswordChange" method="post" role="form" enctype="multipart/form-data">
+
+                        <input type="hidden" class="validate form-control" required name="text_idUser" id="text_idUser"
+                        value="<?php
+                            if(isset($_COOKIE["idUsr"])){
+                                echo  $_COOKIE["idUsr"];
+                            }
+                        ?>">
+
+                        <div class="row">
+                            <div class="input-field col s12">
+								<input type="password" class="validate form-control" required name="text_Password" id="text_Password">
+								<label>Password</label>
+							</div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+								<input type="password" class="validate form-control" required name="text_Password2" id="text_Password2">
+								<label>Confirm Password</label>
+							</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s2" align="center">
+                            <input type="submit" value="Cambiar" name="submit" class="waves-effect waves-light tourz-sear-btn" > </div>
+                        </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!--Modal de la contraseña-->
+			<div class="modal fade" id="modalImagenChange" tabindex="-1" role="dialog" aria-labelledby="modalImagenChangeTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Nueva imagen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="col s12" action="class/uploadProfilePicture.php" id="FormImagenChange" name="FormImagenChange" method="post" role="form" enctype="multipart/form-data">
+
+                        <input type="hidden" class="validate form-control" required name="text_idUser" id="text_idUser"
+                        value="<?php
+                            if(isset($_COOKIE["idUsr"])){
+                                echo  $_COOKIE["idUsr"];
+                            }
+                        ?>">
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="file" class="validate form-control" required name="Img" id="Img">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s2" align="center">
+                            <input type="submit" value="Cambiar" name="submit" class="waves-effect waves-light tourz-sear-btn" > </div>
+                        </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
 			<!--RIGHT SECTION-->
 			<div class="db-3">
 				<h4>Notifications</h4>
@@ -543,6 +627,7 @@
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/toastr.min.js"></script>
+	<script src="js/cambiarPassword.js"></script>
 </body>
 
 </html>

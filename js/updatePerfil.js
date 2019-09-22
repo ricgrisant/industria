@@ -1,8 +1,8 @@
 $(function () {
   $(document).on("submit","#Form_ActualizarPerfil",function(event){
-    alert("submit");
+    //alert("submit");
     event.preventDefault();
-
+    console.log($(this).serialize());
     $.ajax({
         type:"POST",
         url:"class/updatePerfil.php",
@@ -11,7 +11,7 @@ $(function () {
         success:function(data){
          console.log(data);
         if(data[1]=="0"){
-          window.location = "login.html";
+          window.location = "db-my-profile.php";
         }else{
             var msg = data[0]
             toastr.options = {
