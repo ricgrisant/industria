@@ -1,14 +1,15 @@
 <?php
-  /*include("class_conexion.php");
-  $conexion= new Conexion();*/
-  $query=null;
-  $respuesta=["Error","1"];
+  include("class_conexion.php");
   try{
+      $idUser=$_POST["text_idUser"];
       $nombre=$_POST["text_Nombre"];
       $apellido=$_POST["text_Apellido"];
       $correo=$_POST["text_Correo"];
       $telefono=$_POST["text_Telefono"];
-      $imgPerfil=$_POST["text_Img"];
+
+      $conexion= new Conexion();
+      $respuesta=["Error","1"];
+
 
     if ($nombre==null or $nombre==""){
       $respuesta[0]="Ingrese su nombre";
@@ -26,29 +27,26 @@
       $respuesta[0]="Ingrese el Telefono";
     }
 
-   else if ($imgPerfil==null or $imgPerfil==""){
-      $imgPerfil="images\Profile-null.png";
-    }
 
     else{
-      $query="CALL Funcion_UpdatePerfil(1, '$nombre','$apellido','$telefono','$correo', '$imgPerfil', @men, @booleano, @nombre, @apellido, @telefono, @correo, @imgPerfil );";
-      /*$resultados=$conexion->executeQuery($query);
+      $query="CALL Funcion_UpdatePerfil($idUser, '$nombre','$apellido','$telefono','$correo', @men, @booleano);";
+      //$respuesta[0] = $query;
+      $resultados=$conexion->executeQuery($query);
 
-      $query="SELECT @men, @booleano, @nombre, @apellido, @telefono, @correo, @imgPerfil, @fechaNac, @direccion;";
+      $query="SELECT @men, @booleano;";
       $select= $conexion->executeQuery($query);
       $respuesta=$conexion->getRow($select);
-      if ($respuesta["@booleano"]==0) {
-        setcookie("Nombre", $respuesta["@Nombre"],0,"/");
-        setcookie("Apellido", $respuesta["@Apellido"],0,"/");
-        setcookie("Telefono", $respuesta["@Telefono"],0,"/");
-        setcookie("Correo", $respuesta["@Correo"],0,"/");
-        setcookie("Img", $respuesta["@Img"],0,"/");
-        setcookie("FechaNac", $respuesta["@FechaNac"],0,"/");
-        setcookie("Direccion", $respuesta["@Direccion"],0,"/");
-      }*/
-      $respuesta[0] = $query;
-    }
-    //$conexion->closeConnection();
+
+      $query = "CALL getUser($idUser, @men, @booleano);";
+      $res =$conexion->executeQuery($query);
+      $result = $conexion->getRow($res);
+      setcookie("Nombre",$result[0],0,"/");
+      setcookie("Apellido",$result[1],0,"/");
+      setcookie("Telefono",$result[2],0,"/");
+      setcookie("Correo",$result[3],0,"/");
+      setcookie("Img",$result[4],0,"/");
+      }
+    $conexion->closeConnection();
     echo json_encode($respuesta);
   }
   catch (Exception $e){

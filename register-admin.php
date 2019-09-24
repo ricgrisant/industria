@@ -1,8 +1,11 @@
 <?php
     session_start();
-    if(!isset($_SESSION['user']))
-        header("Location: login.php");
-    //var_dump($_COOKIE);
+    if(!isset($_SESSION['user']) ||($_COOKIE['idAdmin']==null)){
+        header("Location: login.html");
+    }
+    $user= $_COOKIE['idUsr'];
+var_dump($_COOKIE);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -335,8 +338,8 @@
                                                     </ul>
                                                     <h4 class="ed-dr-men-mar-top">User login pages</h4>
                                                     <ul>
-                                                        <li><a href="register.php">Register</a></li>
-                                                        <li><a href="login.php">Login and Sign in</a></li>
+                                                        <li><a href="register.html">Register</a></li>
+                                                        <li><a href="login.html">Login and Sign in</a></li>
                                                         <li><a href="forgot-pass.html">Forgot pass</a></li>
                                                     </ul>
                                                 </div>
@@ -400,160 +403,106 @@
     </section>
     <!--END HEADER SECTION-->
 
+	<!--====== NAVIGATION MENU ==========-->
+	<section>
+		<div class="rows main_menu">
+			<div class="container res-menu">
+				<nav class="navbar navbar-inverse">
+					<div>
+						<!-- Brand and toggle get grouped for better mobile display(MOBILE MENU) -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <img src="images/logo.png" alt="" class="mob_logo" /> </div>
+						<!-- NAVIGATION MENU -->
+						<div class="collapse navbar-collapse" id="myNavbar">
+							<ul class="nav navbar-nav">
+								<li><a href="main.html">Home</a> </li>
+								<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Packages <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="family-package.html">Family Package</a> </li>
+										<li><a href="honeymoon-package.html">Honeymoon Package</a> </li>
+										<li><a href="group-package.html">Group Package</a> </li>
+										<li><a href="weekend-package.html">WeekEnd Package</a> </li>
+										<li><a href="regular-package.html">Regular Package</a> </li>
+									</ul>
+								</li>
+								<li><a href="hotels-list.html">Hotels</a> </li>
+								<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sight Seeing <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="places.html">Tour Place - 1</a> </li>
+										<li><a href="places-1.html">Tour Place - 2</a> </li>
+										<li><a href="places-2.html">Tour Place - 3</a> </li>
+									</ul>
+								</li>
+								<li><a href="events.html">Events</a> </li>
+								<li><a href="blog.html">Blog</a> </li>
+								<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Pages <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="about.html">About Us</a> </li>
+										<li><a href="testimonials.html">Testimonials</a> </li>
+										<li><a href="events.html">Events</a> </li>
+										<li><a href="tips.html">Tips Before Travel</a> </li>
+										<li><a href="price-list.html">Price List</a> </li>
+										<li><a href="discount.html">Discount</a> </li>
+										<li><a href="faq.html">FAQ</a> </li>
+										<li><a href="sitemap.html">Site map</a> </li>
+										<li><a href="404.html">404 Page</a> </li>
+									</ul>
+								</li>
+								<li><a href="contact.html">Contact Us</a> </li>
+							</ul>
+							<div class="menu_book"><a href="booking.html">Book Your Package</a> </div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</section>
 	<!--DASHBOARD-->
 	<section>
-		<div class="db">
-			<!--LEFT SECTION-->
-			<div class="db-l">
-				<div class="db-l-1">
-					<ul>
-						<li><img src="<?php
-                                    if(isset($_COOKIE["Img"])){
-                                        if (file_exists($_COOKIE["Img"])){
-                                            echo $_COOKIE["Img"];
-                                        }
-                                        else{
-                                            echo "images/Profile-null.png";
-                                        }
-                                    }
-                                ?>" alt="" /> </li>
-					</ul>
-				</div>
-				<div class="db-l-2">
-					<ul>
-						<li>
-							<a href="dashboard.html"><img src="images/icon/dbl1.png" alt="" /> All Bookings</a>
-						</li>
-						<li>
-							<a href="db-travel-booking.html"><img src="images/icon/dbl2.png" alt="" /> Travel Bookings</a>
-						</li>
-						<li>
-							<a href="db-hotel-booking.html"><img src="images/icon/dbl3.png" alt="" /> Hotel Bookings</a>
-						</li>
-						<li>
-							<a href="db-event-booking.html"><img src="images/icon/dbl4.png" alt="" /> Event Bookings</a>
-						</li>
-						<li>
-							<a href="db-my-profile.html"><img src="images/icon/dbl6.png" alt="" /> My Profile</a>
-						</li>
-						<li>
-							<a href="db-all-payment.html"><img src="images/icon/dbl9.png" alt="" /> Payments</a>
-						</li>
-						<li>
-							<a href="db-refund.html"><img src="images/icon/dbl7.png" alt="" /> Claim & Refund</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<!--CENTER SECTION-->
-			<div class="db-2">
-				<div class="db-2-com db-2-main">
-					<h4>Edit My Profile </h4>
-					<div class="db-2-main-com db2-form-pay db2-form-com">
-						<form class="col s12" action="" id="Form_ActualizarPerfil" name="Form_ActualizarPerfil" method="post" role="form">
-							<div class="row">
-                                <input type="hidden" class="validate form-control" required name="text_idUser" id="text_idUser" value="
-                                <?php
-                                    if(isset($_COOKIE["idUsr"])){
-                                        echo  $_COOKIE["idUsr"];
-                                    }
-                                ?>">
-								<div class="input-field col s12 m6">
-									<input type="text" class="validate form-control" required name="text_Nombre" id="text_Nombre" value="<?php
-                                    if(isset($_COOKIE["Nombre"])){
-                                        echo  $_COOKIE["Nombre"];
-                                    }
-                                    ?>">
-									<label>Nombre</label>
-								</div>
-                                <div class="input-field col s12 m6">
-                                    <input type="text" class="validate form-control" required name="text_Apellido" id="text_Apellido" value="<?php
-                                    if(isset($_COOKIE["Apellido"])){
-                                        echo  $_COOKIE["Apellido"];
-                                    }
-                                    ?>">
-                                    <label>Apellido</label>
-                                </div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12 m6">
-									<input type="number" class="validate form-control" required name="text_Telefono" id="text_Telefono" value="<?php
-                                    if(isset($_COOKIE["Telefono"])){
-                                        echo  (int)$_COOKIE["Telefono"];
-                                    }
-                                    ?>">
-									<label>Telefono</label>
-								</div>
-								<div class="input-field col s12 m6">
-									<input type="email" class="validate form-control" required name="text_Correo" id="text_Correo" value="<?php
-                                    if(isset($_COOKIE["Correo"])){
-                                        echo  $_COOKIE["Correo"];
-                                    }
-                                    ?>">
-									<label>Correo</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input type="submit" value="SUBMIT" class="waves-effect waves-light full-btn"> </div>
-							</div>
-						</form>
+		<div class="tr-register">
+			<div class="tr-regi-form">
+				<h4>Create an Account</h4>
+				<p>It's free and always will be.</p>
+				<form class="col s12" action="" id="FormAdminRegister" name="FormAdminRegister" method="post" role="form">
+					<div class="row">
+						<div class="input-field col m6 s12">
+							<input type="text" class="validate form-control" required name="text_Nombre" id="text_Nombre" maxlength="50">
+							<label>First Name</label>
+						</div>
+						<div class="input-field col m6 s12">
+							<input type="text" class="validate form-control" required name="text_Apellido" id="text_Apellido" maxlength="50">
+							<label>Last Name</label>
+						</div>
 					</div>
-				</div>
-			</div>
-			<!--RIGHT SECTION-->
-			<div class="db-3">
-				<h4>Notifications</h4>
-				<ul>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr1.jpg" alt="" />
-							<h5>50% Discount Offer</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr2.jpg" alt="" />
-							<h5>paris travel package</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr3.jpg" alt="" />
-							<h5>Group Trip - Available</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr4.jpg" alt="" />
-							<h5>world best travel agency</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr5.jpg" alt="" />
-							<h5>special travel coupons</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr6.jpg" alt="" />
-							<h5>70% Offer 2018</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr7.jpg" alt="" />
-							<h5>Popular Cities</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="images/icon/dbr8.jpg" alt="" />
-							<h5>variations of passages</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-				</ul>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="number" class="validate form-control" required name="text_Telefono" id="text_Telefono" maxlength="50">
+							<label>Mobile</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="email" class="validate form-control" required name="text_Correo" id="text_Correo" maxlength="50">
+							<label>Email</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="password" class="validate form-control" required name="text_Password" id="text_Password">
+							<label>Password</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="password" class="validate form-control" required name="text_Password2" id="text_Password2">
+							<label>Confirm Password</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="submit" value="submit" class="waves-effect waves-light btn-large full-btn"> </div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</section>
@@ -734,7 +683,7 @@
 	<script src="js/materialize.min.js"></script>
 	<script src="js/custom.js"></script>
     <script src="js/toastr.min.js"></script>
-    <script src="js/updatePerfil.js"></script>
+    <script src="js/registrarAdmin.js"></script>
 </body>
 
 </html>
