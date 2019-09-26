@@ -38,7 +38,7 @@
             <div class="ed-mob-menu-con">
                 <div class="ed-mm-left">
                     <div class="wed-logo">
-                        <a href="main.html"><img src="images/logo.png" alt="" />
+                        <a href="index.html"><img src="images/logo.png" alt="" />
 						</a>
                     </div>
                 </div>
@@ -174,12 +174,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="wed-logo">
-                            <a href="main.html"><img src="images/logo.png" alt="" />
+                            <a href="index.html"><img src="images/logo.png" alt="" />
                             </a>
                         </div>
                         <div class="main-menu">
                             <ul>
-                                <li><a href="main.html">Home</a>
+                                <li><a href="index.html">Inicio</a>
                                 </li>
                                 <li class="about-menu">
                                     <a href="family-package.html" class="mm-arr">Packages</a>

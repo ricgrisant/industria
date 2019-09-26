@@ -384,7 +384,8 @@
                             </div>
                             <?php 
 
-                                $sql2 = "SELECT * FROM turisteando.opinion;";
+                                $sql2 = "SELECT * FROM turisteando.opinion 
+                                        WHERE idEmpresaTransporte=".$_GET["idEmpresa"];
 
                                 $resultado2 = $conexion->executeQuery($sql2);
 
@@ -444,7 +445,7 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>';    
+                        </div>';    
                                   } 
                                   $conexion->closeConnection();
                             ?>

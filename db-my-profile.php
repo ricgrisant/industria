@@ -115,7 +115,7 @@
                             <ul>
                                 <?php
                                 if (isset($_SESSION["user"])) {
-                                    echo '<li><a>'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>
+                                    echo '<li><a href="db-my-profile.php">'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>
                                         </li>
                                         <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
                                         </li>';}
@@ -313,7 +313,7 @@
 						<div class="db-mak-pay-bot">
 							<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters
 							</p>
-							<a href="db-my-profile-edit.php" class="btn waves-effect waves-light red lighten-2">Edit my profile</a>
+							<a href="db-my-profile-edit.php" class="btn waves-effect waves-light red lighten-2">Editar</a>
 							<a class="btn waves-effect waves-light orange lighten-2" data-toggle="modal" data-target="#modalPasswordChange">Cambiar contraseña</a>
 							<a class="btn waves-effect waves-light blue lighten-2" data-toggle="modal" data-target="#modalImagenChange">Cambiar imagen</a>
 						</div>

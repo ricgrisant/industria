@@ -128,7 +128,7 @@
         </div>
     </section>
     <!--HEADER SECTION-->
-    <section>
+   <section>
         <!-- TOP BAR -->
         <div class="ed-top">
             <div class="container">
@@ -136,18 +136,27 @@
                     <div class="col-md-12">
                         <div class="ed-com-t1-left">
                             <ul>
-                                <li><a href="#">Contact: Lake Road, Suite 180 Farmington Hills, U.S.A.</a>
+                                <li><a href="#">Contacto: ricgrisant@gmail.com, Tegucigalpa, Honduras</a>
                                 </li>
-                                <li><a href="#">Phone: +101-1231-1231</a>
+                                <li><a href="#">Móvil: +504-3162-2193</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="ed-com-t1-right">
-                            <ul>
-                                <li><a href="login.html">Sign In</a>
-                                </li>
-                                <li><a href="register.html">Sign Up</a>
-                                </li>
+                            <ul> 
+                                <?php
+                                if (isset($_SESSION["user"])) {
+                                    echo '<li ><a href="db-my-profile.php">'.$_COOKIE["Nombre"].' '.$_COOKIE["Apellido"].'</a>
+                                        </li>
+                                        <li><a href="class/cerrar_sesion.php">Cerrar Sesion</a>
+                                        </li>';}
+                                    else {
+                                        echo '<ul><li><a href="login.html">Logueate</a></li>
+                                            <li><a href="register.html">Registrate</a>
+                                            </li>
+                                             </ul>';
+                                    }
+                                    ?>
                             </ul>
                         </div>
                         <div class="ed-com-t1-social">
@@ -171,12 +180,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="wed-logo">
-                            <a href="main.html"><img src="images/logo.png" alt="" />
+                            <a href="index.html"><img src="images/logo.png" alt="" />
                             </a>
                         </div>
                         <div class="main-menu">
                             <ul>
-                                <li><a href="main.html">Home</a>
+                                <li><a href="index.html">Inicio</a>
                                 </li>
                                 <li class="about-menu">
                                     <a href="family-package.html" class="mm-arr">Packages</a>
@@ -335,8 +344,8 @@
                                                     </ul>
                                                     <h4 class="ed-dr-men-mar-top">User login pages</h4>
                                                     <ul>
-                                                        <li><a href="register.php">Register</a></li>
-                                                        <li><a href="login.php">Login and Sign in</a></li>
+                                                        <li><a href="register.html">Register</a></li>
+                                                        <li><a href="login.html">Login and Sign in</a></li>
                                                         <li><a href="forgot-pass.html">Forgot pass</a></li>
                                                     </ul>
                                                 </div>
@@ -372,31 +381,31 @@
                 </div>
             </div>
         </div>
-
-		<!-- TOP SEARCH BOX -->
+        
+        <!-- TOP SEARCH BOX -->
         <div class="search-top">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="search-form">
-						<form class="tourz-search-form">
-							<div class="input-field">
-								<input type="text" id="select-city" class="autocomplete">
-								<label for="select-city">Enter city</label>
-							</div>
-							<div class="input-field">
-								<input type="text" id="select-search" class="autocomplete">
-								<label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
-							</div>
-							<div class="input-field">
-								<input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
-						</form>
+                        <form class="tourz-search-form">
+                            <div class="input-field">
+                                <input type="text" id="select-city" class="autocomplete">
+                                <label for="select-city">Enter city</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" id="select-search" class="autocomplete">
+                                <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                        </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-		<!-- END TOP SEARCH BOX -->
+        <!-- END TOP SEARCH BOX -->
     </section>
     <!--END HEADER SECTION-->
 
@@ -448,7 +457,7 @@
 			<!--CENTER SECTION-->
 			<div class="db-2">
 				<div class="db-2-com db-2-main">
-					<h4>Edit My Profile </h4>
+					<h4>Editar</h4>
 					<div class="db-2-main-com db2-form-pay db2-form-com">
 						<form class="col s12" action="" id="Form_ActualizarPerfil" name="Form_ActualizarPerfil" method="post" role="form">
 							<div class="row">
